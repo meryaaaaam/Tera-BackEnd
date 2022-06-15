@@ -19,6 +19,13 @@ class Vehicule extends Model
         'location',
         'model_id',
         'user_id',
+        'portes',
+        'carburant',
+        'transmission',
+        'description',
+        'photo',
+        'siege',
+        'carburan',
         'nb_reservation',
 
 

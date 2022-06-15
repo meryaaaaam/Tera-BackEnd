@@ -19,7 +19,15 @@ return new class extends Migration
             $table->float('Price_H') ;
             $table->float('Price_D') ;
             $table->String('location') ;
-            $table->String('matricule')->unique() ;
+            $table->integer('portes') ;
+            $table->String('carburant') ;
+            $table->integer('siege') ;
+            $table->text('description')->nullable() ;
+            $table->String('transmission') ;
+            $table->String('photo') ;
+            $table->text('extras')->nullable() ;
+             $table->text('description_line')->nullable() ;
+             $table->String('matricule')->unique() ;
             $table->integer('nb_reservation')->default(0)  ;
 
 

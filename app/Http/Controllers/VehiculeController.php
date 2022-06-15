@@ -79,11 +79,18 @@ class VehiculeController extends Controller
         $v =  [
             'km' => $request->km,
             'matricule' => $request->matricule,
+            'portes' => $request->portes,
+            'carburant' => $request->carburant,
+            'transmission' => $request->transmission,
+            'siege' => $request->siege,
             'Price_H' => $request->Price_H,
             'Price_D' => $request->Price_D,
             'location' => $request->location,
             'model_id' => $request->model_id,
             'user_id' => $request->user_id,
+            'description' => $request->description,
+            'photo' => $request->photo,
+            'options' => $request->options,
 
         ];
          $v = Vehicule::create($v);
@@ -130,7 +137,10 @@ class VehiculeController extends Controller
             'type' => $model->type,
             'year' => $model->year,
             'gallerie' => $gallerie ,
-
+            'portes' => $request->portes,
+            'carburant' => $request->carburant,
+            'transmission' => $request->transmission,
+            'siege' => $request->siege,
             'make' => $make->name
 
         ];
@@ -148,12 +158,16 @@ class VehiculeController extends Controller
     public function show($id)
     {
         if (Vehicule::find($id))
-        {
+        {   //$images = [] ;
             $vehicule = Vehicule::find($id);
             $gallerie = Gallery::where('vehicule_id' , $vehicule->id)->first() ;
             $model = Model::find( $vehicule->model_id) ;
             $make = Make::find($model->make_id) ;
             $galleries = Gallery::where('vehicule_id' , $vehicule->id)->get() ;
+            foreach($galleries as $gal)
+            {
+                $images[] = ["path" => $gal["path"]] ;
+            }
             $user = User::find( $vehicule->user_id ) ;
 
             $address = Address::find($user->address_id) ;
@@ -161,11 +175,27 @@ class VehiculeController extends Controller
                 {$adr = $address->address." , ".$address->city." , ".$address->state." , ".$address->code ;}
                 else
                 {$adr='' ;}
+
+            $voptions = vehicule_Options::where('vehicule_id' , $vehicule->id)->get() ;
+            foreach($voptions as $op)
+            {
+                $options[] = [
+                    "label" => Option::find($op->option_id)->label ,
+                    "icon" => Option::find($op->option_id)->icon ,
+
+
+                ] ;
+            }
+            // dd($options) ;
             $res = ["id" =>  $vehicule->id ,
                     "km" =>  $vehicule->km ,
                     "matricule" =>  $vehicule->matricule ,
                     "Price_D" =>  $vehicule->Price_D ,
-                    "Price_H" =>  $vehicule->Price_D ,
+                    "Price_H" =>  $vehicule->Price_H ,
+                    "portes" =>  $vehicule->portes ,
+                    "carburant" =>  $vehicule->carburant ,
+                    "transmission" =>  $vehicule->transmission ,
+                    "siege" =>  $vehicule->siege ,
 
                     'location'=>  $vehicule->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
@@ -173,10 +203,13 @@ class VehiculeController extends Controller
                     'address'=> $adr,
                     'telephone'=> $user->phone,
                     'nb'=> $vehicule->nb_reservation,
+                    'description'=> $vehicule->description,
+                    'photo'=> $vehicule->photo,
 
 
                     "gallerie" =>  $gallerie["path"] ,
-                   // "gallerie" =>  $galleries ,
+                    "galleries" =>  $images ,
+                    "options" => $options ,
 
 
         ];

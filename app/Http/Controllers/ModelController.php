@@ -113,7 +113,7 @@ class ModelController extends Controller
         }
 
       //  $model = $respose->make()->save() ;
-        return response()->json(["message" => "makes created successfully "], 200 );
+        return response()->json(["message" => "Models created successfully "], 200 );
     }
 
 
