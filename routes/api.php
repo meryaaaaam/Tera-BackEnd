@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
+use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VehiculeController;
 use Illuminate\Http\Request;
@@ -58,3 +59,4 @@ Route::post('/create/makes' , [MakeController::class , 'storeMany']) ;
 Route::post('/create/models' , [ModelController::class , 'storeMany']) ;
 
 
+Route::apiResource("options", OptionsController::class);

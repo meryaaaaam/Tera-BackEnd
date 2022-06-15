@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\option;
 use Illuminate\Http\Request;
 
 class OptionsController extends Controller
@@ -13,7 +14,7 @@ class OptionsController extends Controller
      */
     public function index()
     {
-        //
+        return option::all() ;
     }
 
     /**
