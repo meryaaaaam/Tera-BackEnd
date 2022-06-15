@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 14 juin 2022 à 10:05
+-- Généré le : mer. 15 juin 2022 à 14:20
 -- Version du serveur : 10.4.22-MariaDB
 -- Version de PHP : 8.1.2
 
@@ -36,13 +36,6 @@ CREATE TABLE `address` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `address`
---
-
-INSERT INTO `address` (`id`, `address`, `city`, `code`, `state`, `created_at`, `updated_at`) VALUES
-(1, '4710 St Catherine E', 'Montréal ', 'H1V 1Z2', 'Qc ', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -99,20 +92,15 @@ CREATE TABLE `galleries` (
 --
 
 INSERT INTO `galleries` (`id`, `path`, `name`, `size`, `vehicule_id`, `created_at`, `updated_at`) VALUES
-(1, 'assets/img/cars/tesla.jpg', 'tesla.jpg', '54814', 1, '2022-06-09 09:16:35', '2022-06-09 09:16:35'),
-(2, 'assets/img/cars/tesla model3.jpg', 'tesla model3.jpg', '3018833', 4, '2022-06-09 09:18:03', '2022-06-09 09:18:03'),
-(3, 'assets/img/cars/tesla4.jpg', 'tesla4.jpg', '40708', 2, '2022-06-09 09:20:54', '2022-06-09 09:20:54'),
-(4, 'assets/img/cars/bmw-2021-suv-electrique-autonome-1-615x410.webp', 'bmw-2021-suv-electrique-autonome-1-615x410.webp', '78556', 6, '2022-06-09 09:24:27', '2022-06-09 09:24:27'),
-(5, 'assets/img/cars/black ford mangan gt-02.jpg', 'black ford mangan gt-02.jpg', '1213487', 7, '2022-06-09 09:25:44', '2022-06-09 09:25:44'),
-(6, 'assets/img/cars/dodge-02.jpg', 'dodge-02.jpg', '11880', 8, '2022-06-09 09:27:34', '2022-06-09 09:27:34'),
-(7, 'assets/img/cars/nissan.jpg', 'nissan.jpg', '41617', 10, '2022-06-09 09:29:06', '2022-06-09 09:29:06'),
-(8, 'assets/img/cars/nissan-03.jpg', 'nissan-03.jpg', '116376', 12, '2022-06-09 09:31:20', '2022-06-09 09:31:20'),
-(9, 'assets/img/cars/BMW M4 (2).jpg', 'BMW M4 (2).jpg', '2312149', 13, '2022-06-10 07:10:25', '2022-06-10 07:10:25'),
-(10, 'assets/img/cars/tesla.jpg', 'tesla.jpg', '125', 20, '2022-06-10 07:53:20', '2022-06-10 07:53:20'),
-(11, 'assets/img/cars/tesla22.jpg', 'tesla.jpg', '125', 20, '2022-06-10 07:53:20', '2022-06-10 07:53:20'),
-(12, 'assets/img/cars/tesla.jpg', 'tesla.jpg', '125', 22, '2022-06-10 07:54:05', '2022-06-10 07:54:05'),
-(13, 'assets/img/cars/tesla22.jpg', 'tesla2.jpg', '125', 22, '2022-06-10 07:54:05', '2022-06-10 07:54:05'),
-(14, 'assets/img/cars/tesla32.jpg', 'tesla3.jpg', '125', 22, '2022-06-10 07:54:05', '2022-06-10 07:54:05');
+(1, 'assets/img/cars/373119_2019_Audi_Q5-inter-2.jpg', 'inter', '124', 1, '2022-06-15 08:44:24', '2022-06-15 08:44:24'),
+(2, 'assets/img/cars/373117_2019_Audi_Q5-back.jpg', 'back', '124', 1, '2022-06-15 08:44:24', '2022-06-15 08:44:24'),
+(3, 'assets/img/cars/373120_2019_Audi_Q5-int.jpg', 'back', '124', 1, '2022-06-15 08:44:24', '2022-06-15 08:44:24'),
+(4, 'assets/img/cars/BMW M4 (2).jpg', 'inter', '124', 2, '2022-06-15 08:58:55', '2022-06-15 08:58:55'),
+(5, 'assets/img/cars/BMW M4 (1).jpg', 'back', '124', 2, '2022-06-15 08:58:55', '2022-06-15 08:58:55'),
+(6, 'assets/img/cars/BMW M4 (4).jpg', 'back', '124', 2, '2022-06-15 08:58:55', '2022-06-15 08:58:55'),
+(7, 'assets/img/cars/porsche-01.jpg', 'inter', '124', 3, '2022-06-15 09:14:27', '2022-06-15 09:14:27'),
+(8, 'assets/img/cars/porsche-03.jpg', 'back', '124', 3, '2022-06-15 09:14:27', '2022-06-15 09:14:27'),
+(9, 'assets/img/cars/porsche-02.jpg', 'back', '124', 3, '2022-06-15 09:14:27', '2022-06-15 09:14:27');
 
 -- --------------------------------------------------------
 
@@ -133,18 +121,68 @@ CREATE TABLE `makes` (
 --
 
 INSERT INTO `makes` (`id`, `name`, `image`, `created_at`, `updated_at`) VALUES
-(4, 'Ford', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(9, 'Dodge', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(10, 'Nissan', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(14, 'BMW', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(17, 'Chevrolet', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(19, 'Mercedes-Benz', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(29, 'Audi', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(30, 'Jeep', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(38, 'Ferrari', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(39, 'Tesla', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(44, 'Porsche', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51'),
-(53, 'Alfa Romeo', NULL, '2022-06-09 08:40:51', '2022-06-09 08:40:51');
+(1, 'Buick', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(2, 'MINI', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(3, 'Volvo', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(4, 'Ford', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(5, 'HUMMER', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(6, 'GMC', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(7, 'Subaru', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(8, 'Mitsubishi', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(9, 'Dodge', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(10, 'Nissan', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(11, 'Honda', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(12, 'Lincoln', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(13, 'Hyundai', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(14, 'BMW', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(15, 'Bentley', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(16, 'Lexus', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(17, 'Chevrolet', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(18, 'Jaguar', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(19, 'Mercedes-Benz', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(20, 'Volkswagen', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(21, 'Aston Martin', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(22, 'Land Rover', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(23, 'Pontiac', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(24, 'Cadillac', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(25, 'FIAT', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(26, 'Saab', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(27, 'Kia', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(28, 'Lamborghini', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(29, 'Audi', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(30, 'Jeep', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(31, 'MAZDA', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(32, 'Suzuki', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(33, 'Toyota', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(34, 'Acura', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(35, 'Saturn', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(36, 'Chrysler', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(37, 'Isuzu', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(38, 'Ferrari', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(39, 'Tesla', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(40, 'INFINITI', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(41, 'Oldsmobile', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(42, 'Ram', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(43, 'Eagle', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(44, 'Porsche', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(45, 'Mercury', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(46, 'Scion', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(47, 'Lotus', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(48, 'Plymouth', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(49, 'Freightliner', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(50, 'Rolls-Royce', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(51, 'SRT', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(52, 'Maybach', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(53, 'Alfa Romeo', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(54, 'Geo', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(55, 'smart', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(56, 'Daewoo', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(57, 'Maserati', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(58, 'Daihatsu', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(59, 'Genesis', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(60, 'McLaren', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(61, 'Fisker', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46'),
+(62, 'Panoz', NULL, '2022-06-15 08:37:46', '2022-06-15 08:37:46');
 
 -- --------------------------------------------------------
 
@@ -201,42 +239,42 @@ CREATE TABLE `models` (
 --
 
 INSERT INTO `models` (`id`, `name`, `type`, `year`, `created_at`, `updated_at`, `make_id`) VALUES
-(2, 'Altima', 'Sedan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 10),
-(6, 'Transit 150 Wagon', 'Van/Minivan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 4),
-(8, 'Transit 250 Van', 'Van/Minivan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 4),
-(9, 'Model 3', 'Sedan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 39),
-(10, 'Titan King Cab', 'Pickup', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 10),
-(13, 'Mercedes-AMG GT', 'Coupe, Sedan, Convertible', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 19),
-(16, 'Sentra', 'Sedan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 10),
-(17, 'X6', 'SUV', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 14),
-(18, 'Blazer', 'SUV', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 17),
-(19, 'Mercedes-AMG CLS', 'Sedan', '2019', '2022-06-09 08:53:25', '2022-06-09 08:53:25', 19),
-(21, 'X6', 'SUV', '2019', '2022-06-09 08:54:23', '2022-06-09 08:54:23', 14),
-(22, 'Z4', 'Convertible', '2019', '2022-06-09 08:54:23', '2022-06-09 08:54:23', 14),
-(23, '8 Series', 'Coupe, Convertible', '2019', '2022-06-09 08:54:23', '2022-06-09 08:54:23', 14),
-(24, 'X2', 'SUV', '2019', '2022-06-09 08:54:23', '2022-06-09 08:54:23', 14),
-(25, '5 Series', 'Sedan', '2019', '2022-06-09 08:54:23', '2022-06-09 08:54:23', 14),
-(26, 'Transit 150 Wagon', 'Van/Minivan', '2019', '2022-06-09 08:54:44', '2022-06-09 08:54:44', 4),
-(27, 'Transit 250 Van', 'Van/Minivan', '2019', '2022-06-09 08:54:44', '2022-06-09 08:54:44', 4),
-(28, 'EcoSport', 'SUV', '2019', '2022-06-09 08:54:44', '2022-06-09 08:54:44', 4),
-(29, 'F350 Super Duty Super Cab', 'Pickup', '2019', '2022-06-09 08:54:44', '2022-06-09 08:54:44', 4),
-(30, 'Fusion', 'Sedan', '2019', '2022-06-09 08:54:44', '2022-06-09 08:54:44', 4),
-(31, 'Durango', 'SUV', '2019', '2022-06-09 08:55:02', '2022-06-09 08:55:02', 9),
-(32, 'Charger', 'Sedan', '2019', '2022-06-09 08:55:02', '2022-06-09 08:55:02', 9),
-(33, 'Journey', 'SUV', '2019', '2022-06-09 08:55:02', '2022-06-09 08:55:02', 9),
-(34, 'Challenger', 'Coupe', '2019', '2022-06-09 08:55:02', '2022-06-09 08:55:02', 9),
-(35, 'Grand Caravan Passenger', 'Van/Minivan', '2019', '2022-06-09 08:55:02', '2022-06-09 08:55:02', 9),
-(36, 'Q5', 'SUV', '2019', '2022-06-09 08:55:21', '2022-06-09 08:55:21', 29),
-(37, 'A8', 'Sedan', '2019', '2022-06-09 08:55:21', '2022-06-09 08:55:21', 29),
-(38, 'S3', 'Sedan', '2019', '2022-06-09 08:55:21', '2022-06-09 08:55:21', 29),
-(39, 'RS 5', 'Sedan, Coupe', '2019', '2022-06-09 08:55:21', '2022-06-09 08:55:21', 29),
-(40, 'A7', 'Sedan', '2019', '2022-06-09 08:55:21', '2022-06-09 08:55:21', 29),
-(41, 'Blazer', 'SUV', '2019', '2022-06-09 08:55:45', '2022-06-09 08:55:45', 17),
-(42, 'Sonic', 'Sedan, Hatchback', '2019', '2022-06-09 08:55:45', '2022-06-09 08:55:45', 17),
-(43, 'Colorado Extended Cab', 'Pickup', '2019', '2022-06-09 08:55:45', '2022-06-09 08:55:45', 17),
-(44, 'Express 2500 Passenger', 'Van/Minivan', '2019', '2022-06-09 08:55:45', '2022-06-09 08:55:45', 17),
-(45, 'Malibu', 'Sedan', '2019', '2022-06-09 08:55:45', '2022-06-09 08:55:45', 17),
-(46, 'model 4', 'Sedan', '2019', '2022-06-09 09:19:19', '2022-06-09 09:19:19', 39);
+(1, 'X6', 'SUV', '2019', '2022-06-15 08:38:42', '2022-06-15 08:38:42', 14),
+(2, 'Z4', 'Convertible', '2019', '2022-06-15 08:38:42', '2022-06-15 08:38:42', 14),
+(3, '8 Series', 'Coupe, Convertible', '2019', '2022-06-15 08:38:42', '2022-06-15 08:38:42', 14),
+(4, 'X2', 'SUV', '2019', '2022-06-15 08:38:42', '2022-06-15 08:38:42', 14),
+(5, '5 Series', 'Sedan', '2019', '2022-06-15 08:38:42', '2022-06-15 08:38:42', 14),
+(6, 'Mercedes-AMG GT', 'Coupe, Sedan, Convertible', '2019', '2022-06-15 08:39:07', '2022-06-15 08:39:07', 19),
+(7, 'Mercedes-AMG CLS', 'Sedan', '2019', '2022-06-15 08:39:07', '2022-06-15 08:39:07', 19),
+(8, 'GLC Coupe', 'SUV', '2019', '2022-06-15 08:39:07', '2022-06-15 08:39:07', 19),
+(9, 'Durango', 'SUV', '2019', '2022-06-15 08:39:38', '2022-06-15 08:39:38', 9),
+(10, 'Charger', 'Sedan', '2019', '2022-06-15 08:39:38', '2022-06-15 08:39:38', 9),
+(11, 'Journey', 'SUV', '2019', '2022-06-15 08:39:38', '2022-06-15 08:39:38', 9),
+(12, 'Challenger', 'Coupe', '2019', '2022-06-15 08:39:38', '2022-06-15 08:39:38', 9),
+(13, 'Grand Caravan Passenger', 'Van/Minivan', '2019', '2022-06-15 08:39:38', '2022-06-15 08:39:38', 9),
+(14, 'Q5', 'SUV', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(15, 'A8', 'Sedan', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(16, 'S3', 'Sedan', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(17, 'RS 5', 'Sedan, Coupe', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(18, 'A7', 'Sedan', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(19, 'RS 3', 'Sedan', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(20, 'A6', 'Sedan', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(21, 'TT', 'Coupe', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(22, 'e-tron', 'SUV', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(23, 'A3', 'Sedan, Convertible', '2019', '2022-06-15 08:40:08', '2022-06-15 08:40:08', 29),
+(24, 'Highlander Hybrid', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(25, 'RAV4 Hybrid', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(26, 'Highlander', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(27, 'Corolla', 'Sedan', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(28, 'Mirai', 'Sedan', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(29, 'RAV4', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(30, 'Avalon Hybrid', 'Sedan', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(31, 'Prius', 'Hatchback', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(32, 'Land Cruiser', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(33, 'C-HR', 'SUV', '2019', '2022-06-15 08:41:28', '2022-06-15 08:41:28', 33),
+(34, 'IX', 'SUV', '2021', '2022-06-15 08:53:59', '2022-06-15 08:53:59', 14),
+(35, 'M4', 'sedan', '2020', '2022-06-15 08:53:59', '2022-06-15 08:53:59', 14),
+(36, '911', 'Coupe, Convertible', '2001', '2022-06-15 09:10:27', '2022-06-15 09:10:27', 44);
 
 -- --------------------------------------------------------
 
@@ -251,6 +289,17 @@ CREATE TABLE `options` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `options`
+--
+
+INSERT INTO `options` (`id`, `label`, `icon`, `created_at`, `updated_at`) VALUES
+(1, 'GPS', 'assets/img/svg/gps.svg', NULL, NULL),
+(2, 'Bluetooth', 'assets/img/svg/bluetooth.svg', NULL, NULL),
+(3, ' Port USB', 'assets/img/svg/usb.svg', NULL, NULL),
+(4, 'Sièges chauffants', 'assets/img/svg/siege.svg', NULL, NULL),
+(5, 'Caméra de recul', 'assets/img/svg/camera.svg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -330,9 +379,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', NULL, NULL),
-(2, 'Hote', NULL, NULL),
-(3, 'user', '2022-06-09 10:07:26', '2022-06-09 10:07:26');
+(1, 'Admin', '2022-06-15 10:33:25', '2022-06-15 10:33:25'),
+(2, 'Hote', '2022-06-15 10:33:25', '2022-06-15 10:33:25'),
+(3, 'user', '2022-06-15 10:33:45', '2022-06-15 10:33:45');
 
 -- --------------------------------------------------------
 
@@ -363,12 +412,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `username`, `addresse`, `email`, `email_verified_at`, `password`, `phone`, `date_nais`, `link`, `address_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin', 'admin', NULL, 'admin@smartegy.ca', NULL, '$2y$10$PmjN3BSWsQR1YJjGqR1skuBo.RiWToqdKtnGySp0Yu5QMwHIiGOqq', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:07:47', '2022-06-09 08:07:47'),
-(2, 'monica', 'geller', 'mon', NULL, 'monicageller@smartegy.ca', NULL, '$2y$10$wirX20pMMYmG947SSchV6eJ2g.EpwCNJUMpL0eHMDi0bfbojjO4R2', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:07:53', '2022-06-09 08:07:53'),
-(3, 'barney', 'stinson', 'theBarnical', NULL, 'thebarnical@smartegy.ca', NULL, '$2y$10$ubu8zdxjj7QvaQkpoHHQQ.b20n7Humsxv5oEucf.UQZL1QG68ZRGG', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:08:23', '2022-06-09 08:08:23'),
-(4, 'Ted', 'mosbey', 'Ted', NULL, 'ted@smartegy.ca', NULL, '$2y$10$tHJKkiL7IY6B/7vaB4FB1.6zVPz.XDe53.GZe9YwqrsXwiSvPFLse', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:09:09', '2022-06-09 08:09:09'),
-(5, 'Robin', 'Schw', 'Robin', NULL, 'robin@smartegy.ca', NULL, '$2y$10$ygoR.0d1vd07pc.eib0r9eOE3hMHk5QlTLUWNIfiMZ/VBiQiAmbcK', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:09:28', '2022-06-09 08:09:28'),
-(6, 'Lily', 'And', 'Lily', NULL, 'Lily@smartegy.ca', NULL, '$2y$10$t0LLSsXgs1WKpcP2YC4rw.7Fx2eg/9cqtKhzcTx3XIFJAexGaikYy', '(514) 900-3341', NULL, NULL, 1, NULL, '2022-06-09 08:09:56', '2022-06-09 08:09:56');
+(1, 'Admin', 'And', 'Admin', NULL, 'contact@smartegy.ca', NULL, '$2y$10$eBrUBJPJvkEwSfTuODkxKuO10lpYUKSTxa2NBZIQDJqK4Fom2CH1G', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:07', '2022-06-15 08:34:07'),
+(2, 'Marshall', 'And', 'Marshall', NULL, 'marshall@smartegy.ca', NULL, '$2y$10$4xG2jfbE5zA1iEjcScuiZ.Ta9XlUrEFd.HcyVxijlEkfBpznTsqNK', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:36', '2022-06-15 08:34:36'),
+(3, 'Lily', 'And', 'Lily', NULL, 'lily@smartegy.ca', NULL, '$2y$10$9faWlZy9cKtMQYK8AwauIew/MiE60MlNo7ZfBmpt.2NvDqGuV0li.', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:49', '2022-06-15 08:34:49'),
+(4, 'Monica', 'geller', 'Monica', NULL, 'monica@smartegy.ca', NULL, '$2y$10$UrSaHc5Wm0XMS5ea3EQ/x.7Htl16j6QY8v.EQYW210zcmlhNBqXmu', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:07', '2022-06-15 08:35:07'),
+(5, 'Ted', 'geller', 'Ted', NULL, 'Ted@smartegy.ca', NULL, '$2y$10$mzKsm2ivAIoTBC8MGTAURe9LCxsub.1kL/tFjSvBHz41CCkYk5BDS', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:20', '2022-06-15 08:35:20'),
+(6, 'Ross', 'geller', 'Ross', NULL, 'ross@smartegy.ca', NULL, '$2y$10$DF.SVuima0sJV4uloaAjf.c8ZqfyodsV6dQf6b.X0MLVryoCE8tFC', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:34', '2022-06-15 08:35:34');
 
 -- --------------------------------------------------------
 
@@ -389,12 +438,12 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2022-06-09 08:07:47', '2022-06-09 08:07:47'),
-(2, 3, 2, '2022-06-09 08:07:53', '2022-06-09 08:07:53'),
-(3, 3, 3, '2022-06-09 08:08:23', '2022-06-09 08:08:23'),
-(4, 3, 4, '2022-06-09 08:09:09', '2022-06-09 08:09:09'),
-(5, 3, 5, '2022-06-09 08:09:28', '2022-06-09 08:09:28'),
-(6, 3, 6, '2022-06-09 08:09:56', '2022-06-09 08:09:56');
+(1, 1, 1, '2022-06-15 08:34:07', '2022-06-15 08:34:07'),
+(2, 3, 2, '2022-06-15 08:34:36', '2022-06-15 08:34:36'),
+(3, 3, 3, '2022-06-15 08:34:49', '2022-06-15 08:34:49'),
+(4, 3, 4, '2022-06-15 08:35:07', '2022-06-15 08:35:07'),
+(5, 3, 5, '2022-06-15 08:35:20', '2022-06-15 08:35:20'),
+(6, 3, 6, '2022-06-15 08:35:34', '2022-06-15 08:35:34');
 
 -- --------------------------------------------------------
 
@@ -408,6 +457,14 @@ CREATE TABLE `vehicules` (
   `Price_H` double(8,2) NOT NULL,
   `Price_D` double(8,2) NOT NULL,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `portes` int(11) NOT NULL,
+  `carburant` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `siege` int(11) NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `transmission` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `extras` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description_line` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `matricule` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nb_reservation` int(11) NOT NULL DEFAULT 0,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -420,19 +477,10 @@ CREATE TABLE `vehicules` (
 -- Déchargement des données de la table `vehicules`
 --
 
-INSERT INTO `vehicules` (`id`, `km`, `Price_H`, `Price_D`, `location`, `matricule`, `nb_reservation`, `user_id`, `created_at`, `updated_at`, `model_id`) VALUES
-(1, 111.00, 15.00, 32.00, 'Qc', '5UXKR9C57F0K52911', 0, 2, '2022-06-09 09:16:35', '2022-06-09 09:16:35', 9),
-(2, 74.33, 32.00, 42.00, 'Qc', '5UXKR0C57F0K52986', 0, 2, '2022-06-09 09:17:49', '2022-06-09 09:17:49', 9),
-(4, 32.11, 15.00, 34.10, 'Qc', '5UXKR9C57F0K52912', 0, 2, '2022-06-09 09:20:45', '2022-06-09 09:20:45', 46),
-(6, 11.80, 16.00, 32.00, 'Qc', '5UXKR9C57F0K52915', 0, 3, '2022-06-09 09:24:27', '2022-06-09 09:24:27', 36),
-(7, 54.11, 12.00, 32.00, 'Qc', '5UXKR9C57F0K52918', 0, 3, '2022-06-09 09:25:44', '2022-06-09 09:25:44', 6),
-(8, 42.31, 19.00, 60.00, 'Qc', '5UXKR9C57F0K52920', 0, 3, '2022-06-09 09:27:34', '2022-06-09 09:27:34', 32),
-(10, 11.00, 12.00, 32.00, 'Qc', '5UXKR9C57F0Q52912', 0, 6, '2022-06-09 09:29:06', '2022-06-09 09:29:06', 2),
-(12, 70.45, 22.20, 32.00, 'Qc', '5UXKR9Q57F0K53918', 0, 4, '2022-06-09 09:31:20', '2022-06-09 09:31:20', 10),
-(13, 123.00, 12.00, 12.00, 'somwhere', '123', 0, 2, '2022-06-10 07:10:24', '2022-06-10 07:10:24', 6),
-(18, 111.00, 32.00, 32.00, '4710 St Catherine E , Montréal  , Qc  , H1V 1Z2', '5UXKR9C577F0K52911', 0, 1, '2022-06-10 07:52:14', '2022-06-10 07:52:14', 9),
-(20, 111.00, 32.00, 32.00, '4710 St Catherine E , Montréal  , Qc  , H1V 1Z2', '5UXKR9Q577F0K52911', 0, 1, '2022-06-10 07:53:20', '2022-06-10 07:53:20', 9),
-(22, 111.00, 32.00, 32.00, '4710 St Catherine E , Montréal  , Qc  , H1V 1Z2', '5UXKR9Q577QF0K52911', 0, 1, '2022-06-10 07:54:05', '2022-06-10 07:54:05', 9);
+INSERT INTO `vehicules` (`id`, `km`, `Price_H`, `Price_D`, `location`, `portes`, `carburant`, `siege`, `description`, `transmission`, `photo`, `extras`, `description_line`, `matricule`, `nb_reservation`, `user_id`, `created_at`, `updated_at`, `model_id`) VALUES
+(1, 80.78, 10.50, 20.00, '4710 St Catherine E, Montréal , Qc , H1V 1Z2', 5, 'Essence', 5, 'Audi Q5: great vehicle for a weekend getaway or just getting around the city. Spacious trunk and all wheel drive. The sunroof is a great feature for a sunny This vehicle comes with rubber mats so you don’t have to worry about any spills etc. If it happens we can just hose them down like new!', 'automatique', 'assets/img/cars/373122_2019_Audi_Q5-2.jpg', NULL, NULL, '2C3ZC84GHHH2689940', 0, 2, '2022-06-15 08:44:24', '2022-06-15 08:44:24', 14),
+(2, 80.78, 10.50, 20.00, '4710 St Catherine E, Montréal , Qc , H1V 1Z2', 5, 'Essence', 5, '2020 BMW M4 Coupe Twin Turbocharged 3.0L Inline6 Automatic, 7-speed with paddle shift  Currently 45,600 Miles', 'automatique', 'assets/img/cars/BMW M4 (3).jpg', NULL, NULL, '2C3ZC84GH2689940', 0, 3, '2022-06-15 08:58:55', '2022-06-15 08:58:55', 35),
+(3, 180.78, 11.50, 100.00, '4710 St Catherine E, Montréal , Qc , H1V 1Z2', 3, 'Essence', 4, 'Tour with this 6 speed manual transmission Martini 911 Carrera Cabriolet.  Inspired by the legendary Porsche racing team, Martini sports the worlrenowned Martini racing stripes insignia. This vehicle is guaranteed to turn heads and get you noticed when you pull up.  Apple CarPlay, Bluetooth, and the Bose sound system and subwoofer impresses even the most discerning audiophiles. This car comes standard with a convertible top, but you can replace it with the hard top just by adding the gear rack - hard top option for just $40/day. It makes long distance drives much more quiet and peaceful.Also, don’t forget to add the optional windscreen for $40/day for max comfort. It makes a heckuva difference on highways and you can drive with the top down in short sleeves and shorts no matter what the temperature is outside! Also, you won’t mess your hair up during your date or big meeting ;)Although a 4 seater, rear seats are meant for smaller humans.  Convertible mode, child seat booster and wind deflector available as upgrade options for your trip (See extra add -ons).', 'automatique', 'assets/img/cars/porsche-04.jpg', NULL, NULL, 'CC3ZC84GH2689940', 0, 3, '2022-06-15 09:14:26', '2022-06-15 09:14:26', 36);
 
 -- --------------------------------------------------------
 
@@ -447,6 +495,15 @@ CREATE TABLE `vehicule_options` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `vehicule_options`
+--
+
+INSERT INTO `vehicule_options` (`id`, `vehicule_id`, `option_id`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, '2022-06-15 09:27:18', '2022-06-15 09:27:18'),
+(2, 3, 2, '2022-06-15 09:27:18', '2022-06-15 09:27:18'),
+(3, 3, 3, '2022-06-15 09:27:18', '2022-06-15 09:27:18');
 
 --
 -- Index pour les tables déchargées
@@ -579,7 +636,7 @@ ALTER TABLE `vehicule_options`
 -- AUTO_INCREMENT pour la table `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `extras`
@@ -597,7 +654,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT pour la table `galleries`
 --
 ALTER TABLE `galleries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `makes`
@@ -615,13 +672,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT pour la table `models`
 --
 ALTER TABLE `models`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT pour la table `options`
 --
 ALTER TABLE `options`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `personal_access_tokens`
@@ -663,13 +720,13 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT pour la table `vehicules`
 --
 ALTER TABLE `vehicules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `vehicule_options`
 --
 ALTER TABLE `vehicule_options`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Contraintes pour les tables déchargées
