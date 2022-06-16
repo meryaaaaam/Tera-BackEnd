@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 15 juin 2022 à 14:20
+-- Généré le : jeu. 16 juin 2022 à 11:23
 -- Version du serveur : 10.4.22-MariaDB
 -- Version de PHP : 8.1.2
 
@@ -209,14 +209,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (6, '2022_05_11_170722_create_models_table', 1),
 (7, '2022_05_11_172053_create_options_table', 1),
 (8, '2022_05_11_172107_create_extras_table', 1),
-(9, '2022_5_10_105259_create_users_table', 1),
 (10, '2022_05_27_085755_create_vehicules_table', 2),
 (11, '2022_05_27_090947_create_roles_table', 2),
 (12, '2022_05_27_091022_create_user_roles_table', 2),
 (13, '2022_05_27_124726_create_vehicule_options_table', 2),
 (14, '2022_06_01_161621_create_galleries_table', 2),
 (15, '2022_06_09_093744_create_reservations_table', 2),
-(16, '2022_06_09_095808_create_reservations_vehicules_table', 2);
+(16, '2022_06_09_095808_create_reservations_vehicules_table', 2),
+(17, '2022_5_10_105259_create_users_table', 3);
 
 -- --------------------------------------------------------
 
@@ -347,6 +347,13 @@ CREATE TABLE `reservations` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `reservations`
+--
+
+INSERT INTO `reservations` (`id`, `amount`, `start`, `end`, `period`, `created_at`, `updated_at`) VALUES
+(1, 220.00, '2022-06-15 10:15:00', '2022-06-25 19:55:00', NULL, '2022-06-16 06:46:17', '2022-06-16 06:46:17');
+
 -- --------------------------------------------------------
 
 --
@@ -401,6 +408,8 @@ CREATE TABLE `users` (
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_nais` date DEFAULT NULL,
   `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bio` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address_id` bigint(20) UNSIGNED DEFAULT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -411,13 +420,12 @@ CREATE TABLE `users` (
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `firstname`, `lastname`, `username`, `addresse`, `email`, `email_verified_at`, `password`, `phone`, `date_nais`, `link`, `address_id`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'And', 'Admin', NULL, 'contact@smartegy.ca', NULL, '$2y$10$eBrUBJPJvkEwSfTuODkxKuO10lpYUKSTxa2NBZIQDJqK4Fom2CH1G', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:07', '2022-06-15 08:34:07'),
-(2, 'Marshall', 'And', 'Marshall', NULL, 'marshall@smartegy.ca', NULL, '$2y$10$4xG2jfbE5zA1iEjcScuiZ.Ta9XlUrEFd.HcyVxijlEkfBpznTsqNK', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:36', '2022-06-15 08:34:36'),
-(3, 'Lily', 'And', 'Lily', NULL, 'lily@smartegy.ca', NULL, '$2y$10$9faWlZy9cKtMQYK8AwauIew/MiE60MlNo7ZfBmpt.2NvDqGuV0li.', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:34:49', '2022-06-15 08:34:49'),
-(4, 'Monica', 'geller', 'Monica', NULL, 'monica@smartegy.ca', NULL, '$2y$10$UrSaHc5Wm0XMS5ea3EQ/x.7Htl16j6QY8v.EQYW210zcmlhNBqXmu', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:07', '2022-06-15 08:35:07'),
-(5, 'Ted', 'geller', 'Ted', NULL, 'Ted@smartegy.ca', NULL, '$2y$10$mzKsm2ivAIoTBC8MGTAURe9LCxsub.1kL/tFjSvBHz41CCkYk5BDS', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:20', '2022-06-15 08:35:20'),
-(6, 'Ross', 'geller', 'Ross', NULL, 'ross@smartegy.ca', NULL, '$2y$10$DF.SVuima0sJV4uloaAjf.c8ZqfyodsV6dQf6b.X0MLVryoCE8tFC', '(514) 900-3341', NULL, NULL, NULL, NULL, '2022-06-15 08:35:34', '2022-06-15 08:35:34');
+INSERT INTO `users` (`id`, `firstname`, `lastname`, `username`, `addresse`, `email`, `email_verified_at`, `password`, `phone`, `date_nais`, `link`, `photo`, `bio`, `address_id`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', '--', 'Admin', NULL, 'contact@smartegy.ca', NULL, '$2y$10$KV3pOc73M1tAfgE.JqyeF.mr/B54a.A6IKdIoCl9n5G69xJK91dRC', '(514) 900-3341', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-16 07:17:53', '2022-06-16 07:17:53'),
+(2, 'Ted', 'mosbey', 'Ted', NULL, 'ted@smartegy.ca', NULL, '$2y$10$AGF264Tb7Gjgi2b./nNcGe1RECE5aksz6AL7dhaqCEcEm6SkciIWu', '(514) 900-3341', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-16 07:18:48', '2022-06-16 07:18:48'),
+(3, 'monica', 'Geller', 'monica', NULL, 'monica@smartegy.ca', NULL, '$2y$10$.EYbYBbJJHmB4AFMHn8LROcyu9JLRzKMgHVmwu2QnUE/fLluBbNHq', '(514) 900-3341', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-16 07:19:17', '2022-06-16 07:19:17'),
+(4, 'Elliot', 'Smith', 'Elliot', NULL, 'elliot@smartegy.ca', NULL, '$2y$10$nGAfN38J/8x3/FAkvUUhe./VfqyAVskK0xzEJKWwZ.x8DARtzUalm', '(514) 900-3341', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-16 07:19:54', '2022-06-16 07:19:54'),
+(5, 'Ross', 'Geller', 'Ross', NULL, 'ross@smartegy.ca', NULL, '$2y$10$8.2g1LJzJ/i0g0iTsKBSXOA8SJscZCwdeq35nO11UogLFcmElVVXi', '(514) 900-3341', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-16 07:21:31', '2022-06-16 07:21:31');
 
 -- --------------------------------------------------------
 
@@ -438,12 +446,11 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2022-06-15 08:34:07', '2022-06-15 08:34:07'),
-(2, 3, 2, '2022-06-15 08:34:36', '2022-06-15 08:34:36'),
-(3, 3, 3, '2022-06-15 08:34:49', '2022-06-15 08:34:49'),
-(4, 3, 4, '2022-06-15 08:35:07', '2022-06-15 08:35:07'),
-(5, 3, 5, '2022-06-15 08:35:20', '2022-06-15 08:35:20'),
-(6, 3, 6, '2022-06-15 08:35:34', '2022-06-15 08:35:34');
+(1, 1, 1, '2022-06-16 07:17:53', '2022-06-16 07:17:53'),
+(2, 3, 2, '2022-06-16 07:18:48', '2022-06-16 07:18:48'),
+(3, 3, 3, '2022-06-16 07:19:17', '2022-06-16 07:19:17'),
+(4, 3, 4, '2022-06-16 07:19:54', '2022-06-16 07:19:54'),
+(5, 3, 5, '2022-06-16 07:21:31', '2022-06-16 07:21:31');
 
 -- --------------------------------------------------------
 
@@ -666,7 +673,7 @@ ALTER TABLE `makes`
 -- AUTO_INCREMENT pour la table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `models`
@@ -690,7 +697,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT pour la table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `reservations_vehicules`
@@ -708,13 +715,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `user_roles`
 --
 ALTER TABLE `user_roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `vehicules`

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->date('date_nais')->nullable();
             $table->string('link')->nullable();
             $table->string('photo')->nullable();
+            $table->text('bio')->nullable();
 
 
 
