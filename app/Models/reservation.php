@@ -21,6 +21,6 @@ class reservation extends Model
 
     public function vehicules()
     {
-        return $this->belongsToMany(Roles::class , 'reservation_vehicules', 'reservation_id', 'vehicule_id');
+        return $this->belongsToMany(reservation::class  );
     }
 }

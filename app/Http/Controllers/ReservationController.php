@@ -42,6 +42,7 @@ class ReservationController extends Controller
         }
         else
         {
+            $periode =  round($end - $start) ;
             $hour =  round($end - $start) ;
             $amount =   $vehicule->Price_H * $hour/3600;
         }
@@ -56,7 +57,7 @@ class ReservationController extends Controller
    //   $c = $request->start->format('Y-m-d H:i') ; dd($c) ;
 
 
-        $op = reservation::create(['amount'=> $amount , "start"=>$start , "end"=>$end] ) ;
+        $op = reservation::create(['amount'=> $amount , "start"=>$start , "end"=>$end , "period"=> $periode] ) ;
         $opv = reservation_vehicules::create(['reservation_id'=>$op->id , "vehicule_id"=>$request->vehicule]) ;
 
         return response()->json("Done" , 200 );

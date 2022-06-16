@@ -9,6 +9,12 @@ class reservation_vehicules extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+
+        'vehicule_id',
+        'reservation_id',
+
+    ];
     public $incrementing = true;
 
 protected $table = 'reservations_vehicules';

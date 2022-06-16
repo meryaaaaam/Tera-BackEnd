@@ -47,6 +47,6 @@ class Vehicule extends Model
 
     public function reservations()
     {
-        return $this->belongsToMany(reservation::class);
+        return $this->belongsToMany(Vehicule::class ,  'reservation_vehicules', 'vehicule_id', 'options_id');
     }
 }

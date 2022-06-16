@@ -51,6 +51,7 @@ class UserController extends Controller
                        "firstname" => $user->firstname ,
                        "lastname" => $user->lastname ,
                        "username" => $user->username ,
+                       "photo" => $user->photo ,
                        "email" => $user->email ,
                        "link" => $user->link ,
                        "phone" => $user->phone ,
@@ -73,6 +74,7 @@ class UserController extends Controller
                 "link" => $user->link ,
                 "phone" => $user->phone ,
                 "date_nais" => $user->date_nais ,
+                "photo" => $user->photo ,
                 "address" =>  "Null",
                 "city" =>  "Null",
                 "code" =>  "Null",
@@ -110,6 +112,7 @@ class UserController extends Controller
         'state' => 'max:100',
         'code' => 'max:100',
         'email' => 'email',
+        'photo' => 'required',
        // 'password' => 'required|min:8'
     ]);
 
@@ -146,6 +149,8 @@ class UserController extends Controller
             "username" => $request->username,
             "firtname" => $request->firstname,
             "lastname" => $request->lastname,
+            "photo" => $request->photo,
+            "date_nais" => $request->date_nais,
             "phone" => $request->phone,
             "email" => $request->email,
             "address_id" => $address->id,
