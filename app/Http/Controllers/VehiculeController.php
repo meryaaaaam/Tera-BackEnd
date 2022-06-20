@@ -35,12 +35,13 @@ class VehiculeController extends Controller
         "km" =>  $v->km ,
         "matricule" =>  $v->matricule ,
         "Price_D" =>  $v->Price_D ,
-        "Price_H" =>  $v->Price_D ,
+        "Price_H" =>  $v->Price_H ,
 
         'location'=>  $v->location ,
         'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
         'user'=>  $user->firstname." ".$user->lastname ,
-        "image" =>  $gallerie["path"] ,
+        "image" =>  $v->photo ,
+        "nb" =>  $v->nb_reservation ,
         //"gallerie" =>  $galleries ,
 
     ];}

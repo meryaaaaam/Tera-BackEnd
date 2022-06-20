@@ -102,7 +102,7 @@ class UserController extends Controller
     {
         $user = User::find($id) ;
          // La validation de données
-    $this->validate($request, [
+   $this->validate($request, [
         'username' => 'max:100',
         'firstname' => 'max:100',
         'lastname' => 'max:100',
@@ -112,9 +112,31 @@ class UserController extends Controller
         'state' => 'max:100',
         'code' => 'max:100',
         'email' => 'email',
-        'photo' => 'required',
+        //'photo' => 'required|image',
        // 'password' => 'required|min:8'
     ]);
+
+    $req = $request->all() ;
+
+   /* if ($request->hasFile('img'))
+    {
+        dd('in ') ;
+
+      $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+          $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+          $extension = $request->file('img')->getClientOriginalExtension();
+          $fileNameToStore= $filename.'_'.time().'.'.$extension;
+          $path = $request->file('img')->storeAs('public/img/logo', $fileNameToStore);
+          $user->photo= $fileNameToStore;
+            $user->save() ;
+
+          return response()->json(["message" => "photo updated successfully."]);
+     }
+     else
+     {          return response()->json(["message" => "somthing went wrong ."]);
+     }
+*/
 
 
     if($user->address_id)
@@ -159,13 +181,20 @@ class UserController extends Controller
 
 
 
+
+
     }
     // On modifie les informations de l'utilisateur
+    if($user->save() && $user->refresh()){
+        return response()->json(["message" => "user updated successfully."]);
+     } else{
+        return response()->json(["message" => "something went wrong"]);
+     }
 
 
 
     // On retourne la réponse JSON
-    return response()->json(["user" => $user , "address"=> $address]);
+  //  return response()->json(["user" => $user , "address"=> $address]);
     }
 
     /**
