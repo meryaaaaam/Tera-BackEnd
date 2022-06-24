@@ -112,12 +112,15 @@ class UserController extends Controller
         'state' => 'max:100',
         'code' => 'max:100',
         'email' => 'email',
-        //'photo' => 'required|image',
+        'photo' => '',
        // 'password' => 'required|min:8'
     ]);
 
-    $req = $request->all() ;
-
+   // $req = $request->all() ;
+   if (request('photo')) {
+    $imagePath = $request->photo->store('public/img/logo');
+}
+dd($imagePath);
    /* if ($request->hasFile('img'))
     {
         dd('in ') ;
@@ -142,10 +145,17 @@ class UserController extends Controller
     if($user->address_id)
     {   $address = Address::find($user->address_id) ;
       //  dd($address);
-        $user->update(
-           $request->all()
+        $user->update([
+            //"username" => $request->username,
+            "firtname" => $request->firstname,
+            "lastname" => $request->lastname,
+            "photo" => $imagePath ?? $user->photo,
+            "date_nais" => $request->date_nais,
+            "phone" => $request->phone,
+            "email" => $request->email,
+            "address_id" => $address->id,
            // "password" => bcrypt($request->password)
-        );
+        ]);
 
         $address->update([
             "address" => $request->address,
@@ -167,11 +177,13 @@ class UserController extends Controller
 
            // "password" => bcrypt($request->password)
         ]) ;
+
+
         $user->update([
             "username" => $request->username,
             "firtname" => $request->firstname,
             "lastname" => $request->lastname,
-            "photo" => $request->photo,
+            "photo" => $imagePath ?? $user->image,
             "date_nais" => $request->date_nais,
             "phone" => $request->phone,
             "email" => $request->email,
@@ -185,13 +197,13 @@ class UserController extends Controller
 
     }
     // On modifie les informations de l'utilisateur
-    if($user->save() && $user->refresh()){
+    /*if($user->save() && $user->refresh()){
         return response()->json(["message" => "user updated successfully."]);
      } else{
         return response()->json(["message" => "something went wrong"]);
-     }
+     }*/
 
-
+     $response = response()->json($user);
 
     // On retourne la réponse JSON
   //  return response()->json(["user" => $user , "address"=> $address]);
