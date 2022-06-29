@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\OptionsController;
@@ -45,6 +46,7 @@ Route::group([
 });
 
 Route::apiResource("users", UserController::class);
+Route::apiResource("cards", CardController::class);
 //Route::put('/update/{id}', [UserController::class, 'update']);
 
 Route::post('/uploadphoto/{id}', [UserController::class, 'uploadPhoto']);

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('vehicule', function (Blueprint $table) {
+        Schema::table('vehicules', function (Blueprint $table) {
             $table->float('balance')->default(0);
             $table->float('bail')->default(0);
         });

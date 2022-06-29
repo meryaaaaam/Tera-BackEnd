@@ -27,6 +27,8 @@ class Vehicule extends Model
         'siege',
         'carburan',
         'nb_reservation',
+        'balance' ,
+        'bail'
 
 
     ];
