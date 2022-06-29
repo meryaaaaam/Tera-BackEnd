@@ -228,6 +228,7 @@ class VehiculeController extends Controller
                     'location'=>  $vehicule->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=> $user->firstname." ".$user->lastname,
+                    'user_photo' => $user->photo,
                     'address'=> $adr,
                     'telephone'=> $user->phone,
                     'nb'=> $vehicule->nb_reservation,
