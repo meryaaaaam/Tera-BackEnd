@@ -135,13 +135,13 @@ class UserController extends Controller
             "code" => $request->code,
             "state" => $request->state,
         ]) ;
-       
+
     }
     $user->update([
         "username" => $request->username,
         "firtname" => $request->firstname,
         "lastname" => $request->lastname,
-        "photo" => $request->photo,
+       // "photo" => $request->photo,
         "date_nais" => $request->date_nais,
         "phone" => $request->phone,
         "email" => $request->email,
@@ -149,7 +149,7 @@ class UserController extends Controller
         "link" => $request->link,
         "address_id" => $address->id,
     ]);
-   
+
 
 
 
@@ -195,7 +195,8 @@ class UserController extends Controller
                 $extension = $request->file('img')->getClientOriginalExtension();
                 $fileNameToStore= $filename.'_'.time().'.'.$extension;
                 $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
-                $user->photo= $fileNameToStore;
+                $user->photo= $fileNameToStore; $user->save() ;
+                $user->update(["photo"=>   $fileNameToStore]);
 
          if($user->save() && $user->refresh()){
             return response()->json(["message" => "image added successfully."]);
@@ -207,5 +208,5 @@ class UserController extends Controller
 }
 
 
- 
+
 }
