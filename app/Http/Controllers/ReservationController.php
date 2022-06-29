@@ -97,4 +97,33 @@ class ReservationController extends Controller
     {
         //
     }
+
+
+    public function totalprice(Request $request)
+    {
+        $vehicule = Vehicule::find($request->vehicule) ;
+        $start = $request->start ;
+        $end = $request->end ;
+      //  $periode = $end-$start ;
+
+        $end = strtotime($end) ;
+        $start= strtotime($start);
+        $periode = (($end - $start)/3600)/24 ;
+
+        if($periode>1){
+            $periode = (($end - $start)/3600)/24 ;
+           $amount = $vehicule->Price_D * round($periode+1) ;
+        }
+        else
+        {
+            $periode =  round($end - $start) ;
+            $hour =  round($end - $start) ;
+            $amount =   $vehicule->Price_H * $hour/3600;
+        }
+
+        $start = date('Y-m-d H:i:s',$start) ;
+        $end = date('Y-m-d H:i:s',$end) ;
+       // dd($start) ;}
+}
+
 }
