@@ -45,8 +45,10 @@ Route::group([
 });
 
 Route::apiResource("users", UserController::class);
-Route::put('/update/{id}', [UserController::class, 'update']);
+//Route::put('/update/{id}', [UserController::class, 'update']);
 
+Route::post('/uploadphoto/{id}', [UserController::class, 'uploadPhoto']);
+Route::put('user/{id}', [UserController::class, 'updateduser']);
 Route::apiResource("models", ModelController::class);
 Route::apiResource("makes", MakeController::class);
 Route::apiResource("vehicules", VehiculeController::class);
@@ -60,5 +62,10 @@ Route::post('/create/makes' , [MakeController::class , 'storeMany']) ;
 Route::post('/create/models' , [ModelController::class , 'storeMany']) ;
 
 
+Route::post('storeImage' , [VehiculeController::class , 'storeImage']) ;
+Route::post('storeImages' , [VehiculeController::class , 'storeImages']) ;
+
+
 Route::apiResource("options", OptionsController::class);
 Route::apiResource("reservations", ReservationController::class);
+

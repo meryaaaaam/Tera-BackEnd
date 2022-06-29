@@ -55,6 +55,7 @@ class UserController extends Controller
                        "email" => $user->email ,
                        "link" => $user->link ,
                        "phone" => $user->phone ,
+                       "bio" => $user->bio ,
                        "date_nais" => $user->date_nais ,
                        "address_id" => $user->address_id ,
                        "address" => $address->address ,
@@ -72,6 +73,8 @@ class UserController extends Controller
                 "username" => $user->username ,
                 "email" => $user->email ,
                 "link" => $user->link ,
+                "bio" => $user->bio ,
+
                 "phone" => $user->phone ,
                 "date_nais" => $user->date_nais ,
                 "photo" => $user->photo ,
@@ -103,7 +106,7 @@ class UserController extends Controller
         $user = User::find($id) ;
          // La validation de données
    $this->validate($request, [
-        'username' => 'max:100',
+        //'username' => 'max:100',
         'firstname' => 'max:100',
         'lastname' => 'max:100',
         'phone' => 'max:100',
@@ -112,61 +115,18 @@ class UserController extends Controller
         'state' => 'max:100',
         'code' => 'max:100',
         'email' => 'email',
-        'photo' => '',
+        //'photo' => 'required|image',
        // 'password' => 'required|min:8'
     ]);
 
-   // $req = $request->all() ;
-   if (request('photo')) {
-    $imagePath = $request->photo->store('public/img/logo');
-}
-dd($imagePath);
-   /* if ($request->hasFile('img'))
-    {
-        dd('in ') ;
-
-      $filenameWithExt = $request->file('img')->getClientOriginalName();
-
-          $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-          $extension = $request->file('img')->getClientOriginalExtension();
-          $fileNameToStore= $filename.'_'.time().'.'.$extension;
-          $path = $request->file('img')->storeAs('public/img/logo', $fileNameToStore);
-          $user->photo= $fileNameToStore;
-            $user->save() ;
-
-          return response()->json(["message" => "photo updated successfully."]);
-     }
-     else
-     {          return response()->json(["message" => "somthing went wrong ."]);
-     }
-*/
-
-
     if($user->address_id)
     {   $address = Address::find($user->address_id) ;
-      //  dd($address);
-        $user->update([
-            //"username" => $request->username,
-            "firtname" => $request->firstname,
-            "lastname" => $request->lastname,
-            "photo" => $imagePath ?? $user->photo,
-            "date_nais" => $request->date_nais,
-            "phone" => $request->phone,
-            "email" => $request->email,
-            "address_id" => $address->id,
-           // "password" => bcrypt($request->password)
-        ]);
-
         $address->update([
             "address" => $request->address,
             "city" => $request->city,
             "code" => $request->code,
             "state" => $request->state,
-
-           // "password" => bcrypt($request->password)
         ]);
-
-
     }
     else {
        $address = Address::create([
@@ -174,39 +134,28 @@ dd($imagePath);
             "city" => $request->city,
             "code" => $request->code,
             "state" => $request->state,
-
-           // "password" => bcrypt($request->password)
         ]) ;
-
-
-        $user->update([
-            "username" => $request->username,
-            "firtname" => $request->firstname,
-            "lastname" => $request->lastname,
-            "photo" => $imagePath ?? $user->image,
-            "date_nais" => $request->date_nais,
-            "phone" => $request->phone,
-            "email" => $request->email,
-            "address_id" => $address->id,
-           // "password" => bcrypt($request->password)
-        ]);
-
-
-
-
-
+       
     }
-    // On modifie les informations de l'utilisateur
-    /*if($user->save() && $user->refresh()){
-        return response()->json(["message" => "user updated successfully."]);
-     } else{
-        return response()->json(["message" => "something went wrong"]);
-     }*/
+    $user->update([
+        "username" => $request->username,
+        "firtname" => $request->firstname,
+        "lastname" => $request->lastname,
+        "photo" => $request->photo,
+        "date_nais" => $request->date_nais,
+        "phone" => $request->phone,
+        "email" => $request->email,
+        "bio" => $request->bio,
+        "link" => $request->link,
+        "address_id" => $address->id,
+    ]);
+   
 
-     $response = response()->json($user);
+
 
     // On retourne la réponse JSON
-  //  return response()->json(["user" => $user , "address"=> $address]);
+   return response()->json(["user" => $user , "address"=> $address]);
+
     }
 
     /**
@@ -228,4 +177,35 @@ dd($imagePath);
         // On retourne la réponse JSON
         return response()->json(['message' => 'User Deleted successfully']);
     }
+
+
+
+
+    public function uploadPhoto(Request $request, $id )
+    {
+
+        $user = User::findOrFail($id) ;
+        $user->update($request->all());
+         if ($request->hasFile('img'))
+          {
+
+            $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file('img')->getClientOriginalExtension();
+                $fileNameToStore= $filename.'_'.time().'.'.$extension;
+                $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+                $user->photo= $fileNameToStore;
+
+         if($user->save() && $user->refresh()){
+            return response()->json(["message" => "image added successfully."]);
+         } else{
+            return response()->json(["message" => "something went wrong"]);
+         }
+
+    }
+}
+
+
+ 
 }

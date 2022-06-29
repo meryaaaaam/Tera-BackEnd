@@ -76,7 +76,24 @@ class VehiculeController extends Controller
     {
 
 
-     // die() ;
+       // $filename =time(). $gal->getClientOriginalName();
+    //    $gal->storeAs('public/image/vehicule', $filename);
+            $model =  Model::find($request->model_id) ;
+            $make =  Make::find($model->make_id) ;
+
+      /*  if ($request->hasFile('img'))
+        {
+
+             $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+              $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+              $extension = $request->file('img')->getClientOriginalExtension();
+              $fileNameToStore= $make->name.'_'.$model->name.'_'.$model->year.'_'.$model->type.'_0'.'.'.$extension;
+              $path = $request->file('img')->storeAs('public/image/vehicule', $fileNameToStore);
+          //    $v->photo= $fileNameToStore;
+
+        }*/
+
         $v =  [
             'km' => $request->km,
             'matricule' => $request->matricule,
@@ -100,27 +117,31 @@ class VehiculeController extends Controller
         {
             vehicule_Options::create([ "vehicule_id" => $v->id , "option_id" => $op ]);
            // dump($op) ;
-
-
         }}
 
 
-        if($request->galleries)
+       if($request->galleries)
         {foreach($request->galleries as $gal)
         {
             $gallerie[] = $gal ;
            Gallery::create([
                "vehicule_id" => $v->id , "path" => $gal['path'] , "size"=> $gal["size"] , "name"=> $gal["name"]
            ]);
+
+
           //  dump($op) ;
 
 
         }}
 
+
+
+
+
+
         //$response = Modul::create($request->all());
 
-        $model =  Model::find($request->model_id) ;
-        $make =  Make::find($model->make_id) ;
+
            // 'make_id' => Make::find($request->model->make),
 
 
@@ -134,6 +155,7 @@ class VehiculeController extends Controller
             'Price_H' => $request->Price_H,
             'Price_D' => $request->Price_D,
             'location' => $request->location,
+            'photo' => $request->photo,
             'model' => $model->name,
             'type' => $model->type,
             'year' => $model->year,
@@ -145,6 +167,9 @@ class VehiculeController extends Controller
             'make' => $make->name
 
         ];
+
+
+
 
       //  $model = $respose->make()->save() ;
         return response()->json($response , 200 );
@@ -236,6 +261,8 @@ class VehiculeController extends Controller
         $response = Vehicule::find($id) ;
         $model = Model::find($response->model_id) ;
         $response->update($request->all() );
+
+
         return response()->json($response , 200);
     }
 
@@ -435,5 +462,77 @@ public function gallerieTest(Request $request)
 
 }
 
+
+
+public function uploadphoto(Request $request, $id )
+{
+
+    $user = User::findOrFail($id) ;
+    $user->update($request->all());
+     if ($request->hasFile('img'))
+      {
+
+        $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            $path = $request->file('img')->storeAs('public/image', $fileNameToStore);
+            $user->photo= $fileNameToStore;
+
+     if($user->save() && $user->refresh()){
+        return response()->json(["message" => "image added successfully."]);
+     } else{
+        return response()->json(["message" => "something went wrong"]);
+     }
+
+}
+}
+public function storeImage(Request $request)
+{
+    if ($request->hasFile('img'))
+      {
+
+        $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileNameToStore= $filename.'.'.$extension;
+            $path = $request->file('img')->storeAs('public/image/vehicule', $fileNameToStore);
+
+      }
+}
+
+    public function storeImages(Request $request)
+    {
+        $files = $request->file('gal');
+        dd($files);
+
+       // return response()->json(["message" => $files]);
+       //  die() ;
+        $allowedfileExtension=['pdf','jpg','png'];
+        $i=0 ;
+        foreach($files as $file)
+        {
+           // dump($file) ;
+            $extension = $file->getClientOriginalExtension();
+            $check = in_array($extension,$allowedfileExtension);
+
+            $filenameWithExt = $file->getClientOriginalName();
+            foreach($request->gal as $mediaFiles) {
+
+               $i++;
+               $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+               $fileNameToStore= $filename.'.'.$extension;
+                // $name = $make->name.'_'.$model->name.'_'.$model->year.'_'.$model->type.'_'.$i.'.'.$extension;
+                //$path = 'http://127.0.0.1:8000/image/vehicule'.$filename ;
+                $mediaFiles->storeAs('public/image/vehicule' , $fileNameToStore);
+                //store image file into directory and db
+                $size = $mediaFiles->getSize();
+
+
+            }
+        }
+    }
 
 }
