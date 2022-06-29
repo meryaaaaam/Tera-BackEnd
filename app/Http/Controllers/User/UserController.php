@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\User;
+use App\Models\Roles;
 use App\Models\UserRoles;
 use Illuminate\Http\Request;
 
@@ -41,6 +42,12 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id) ;
+
+        $roleu = UserRoles::where('user_id',$user->id)->first();
+         //  dd($roleu->role_id);
+        $role = Roles::find($roleu->id) ;
+
+
         if ($user)
        {
 
@@ -62,6 +69,7 @@ class UserController extends Controller
                        "city" => $address->city ,
                        "code" => $address->code ,
                        "state" => $address->state ,
+                       "role" => $role->role ,
 
          ]; return response()->json($response);}
          else
@@ -81,7 +89,8 @@ class UserController extends Controller
                 "address" =>  "Null",
                 "city" =>  "Null",
                 "code" =>  "Null",
-                "state" =>  "Null"
+                "state" =>  "Null",
+                "role" => $role->role ,
 
 
   ];  return response()->json($response);

@@ -12,6 +12,14 @@ class UserRoles extends Pivot
 
 
 
+    protected $fillable = [
+
+        'user_id',
+        'role_id',
+
+    ];
+
+
 
 /**
  * Indicates if the IDs are auto-incrementing.

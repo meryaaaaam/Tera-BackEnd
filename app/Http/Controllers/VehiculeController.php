@@ -109,6 +109,7 @@ class VehiculeController extends Controller
             'description' => $request->description,
             'photo' => $request->photo,
             'options' => $request->options,
+            'bail' => $request->bail,
 
         ];
          $v = Vehicule::create($v);
@@ -164,7 +165,8 @@ class VehiculeController extends Controller
             'carburant' => $request->carburant,
             'transmission' => $request->transmission,
             'siege' => $request->siege,
-            'make' => $make->name
+            'make' => $make->name,
+            'bail' => $request->bail,
 
         ];
 

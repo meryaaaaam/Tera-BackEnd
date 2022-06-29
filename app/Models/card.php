@@ -22,9 +22,9 @@ class card extends Model
         'user_id',
 
     ];
-    protected $card_date = 'm-Y';
+ //   protected $card_date = 'm-Y';
     protected $casts = [
-        'card_date' => 'datetime:m-Y', // Change your format
+        'card_date' => 'date:m-Y', // Change your format
        // 'updated_at' => 'datetime:d/m/Y',
     ];
 
