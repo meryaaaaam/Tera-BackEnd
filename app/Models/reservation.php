@@ -11,10 +11,11 @@ class reservation extends Model
 
     protected $fillable = [
         'amount',
-        'startday',
+        'start', 'end',
+       /* 'startday',
         'starthour',
         'endday',
-        'endhour',
+        'endhour',*/
         'days',
         'hours',
         'period',

@@ -29,86 +29,41 @@ class ReservationController extends Controller
     {
             $vehicule = Vehicule::find($request->vehicule) ;
             $start = $request->start ;
-            $end = $request->end ; 
-            $from = str_replace('/', '-', $request->start);
-            $startday = substr($from,0 ,10);    // returns "f"
-            $starthour = substr($from, 12);    // returns "f"
-           // dd($day);
-            
-            $to =str_replace('/', '-', $request->end );
-            $endday = substr($to,0 ,10);    // returns "f"
-            $endhour = substr($to, 12);    // returns "f"
+            $start = str_replace('/', '-', $start);
+           /* $day = substr($start,0 ,10);    // returns "f"
+            $hour = substr($start, 12);    // returns "f"
+            dd($day);*/
+            $end = $request->end ;
+            $end =str_replace('/', '-', $end);
+
       
             $available = true ;
-            $start =  strtotime($startday) ; 
-            $start = date('d-m-Y ',$start) ;
-
-       
-
-            $resdatestart=0;
-
-         $reservation = reservation_vehicules::where('vehicule_id' , $vehicule->id)->get() ;
-         foreach($reservation as $res)
-         {
-            $resarray = reservation::where('id',$res->reservation_id)->get() ;
-            foreach($resarray as $res)
-            {
-                $resdatestart =  strtotime($res->startday) ; 
-                $resdatestart = date('d-m-Y ',$resdatestart) ;
-                if($start==$resdatestart)
-                { 
-                $data[] = 
-                ['startday'=>$res->startday,
-                'starthour'=>$res->starthour,
-                'endday'=>$res->endday,
-                'endhour'=>$res->endhour,
-            ]; 
-         } dump($data) ;}}
- //dd($data) ;
- die();
-         foreach($data as $r)
-         {
-         //   dump($r->startday) ;
-            $resdatestart =  strtotime($r->startday) ; 
-            $resdatestart = date('d-m-Y ',$resdatestart) ;
-          //   dump($resdatestart) ;
-            if($start==$resdatestart)
-           { dump($resdatestart) ;}
-         }
-        /* ->where('end','>=',$request->end)
-         ->orWhereBetween('start',[$request->start, $request->end])
-         ->orWhereBetween('end',[$request->start, $request->end])->get() ;
-        // ->whereBetween('start',[$start, $end])->get() ;
-        /* ->orWhereBetween('end',[$request->start, $request->end])
-         ->orWhere(function($query) use($request){
-             $query->where('start','<=',$request->start)
-                 ->where('end','>=',$request->end); })->first();
-         dd($reservation) ; 
-        foreach($reservation as $resv)
-        {
-
-            $u = reservation::find($resv->reservation_id)  ;
-            dd($u) ;
-            $date = Reservation::find($resv->reservation_id)->end ;
-                $exist = reservation_vehicules::join() ;
-            $leave_exists = reservation::where('id',$resv->reservation_id)
-            ->join('categories', 'news.category_id', '=', 'categories.id')
-            ->whereBetween('start',[$request->start, $request->end])
-            ->orWhereBetween('end',[$request->start, $request->end])
-            ->orWhere(function($query) use($request){
-                $query->where('start','<=',$request->start)
-                    ->where('end','>=',$request->end); })->first();
-            /*$date =   strtotime($date) ;
-            $datef = date('d-m-Y H:i:s',$date) ;
-            if($start<$date){
-                $available = false ;  //dump($startf.' < '.$datef , $available);
-            }
-      //      else {dump($startf.' > '.$datef , $available);}
+            $start =  strtotime($start) ; 
+            $start = date('Y-m-d H:i:s',$start) ;
             
-        } */
+            $end =  strtotime($end) ; 
+            $end = date('Y-m-d H:i:s',$end) ;
+
+            $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
+            ->join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
+            ->WhereBetween('start',[$start, $end])
+            ->orWhereBetween('end',[$start, $end])
+            ->orWhere(function($query) use($start, $end){
+                $query->where('start','<=',$start)
+                      ->where('end','>=',$end) ;})
+             ->first();
+            
+            //whereDate('start','=', $start)->get();
+           // dd($reservation) ;
+            if($reservation)
+                {$available = false ;}
+            
  
-       //die(); // dd($reservation) ; //  dd($resInfo);
-       die();
+
+         
+        
+       
+    
         if($available){
         $reservation = reservation_vehicules::where('vehicule_id' , $vehicule->id) ;
         $veh =  $vehicule->nb_reservation +1 ;
@@ -117,10 +72,10 @@ class ReservationController extends Controller
         
         $start = $request->start ;
         $start = str_replace('/', '-', $start);
-    // dd($date)   ;
+        // dd($date)   ;
         $end = $request->end ;
         $end =str_replace('/', '-', $end);
-      //  $periode = $end-$start ;
+        //  $periode = $end-$start ;
 
         $end = strtotime($end) ;
         $start= strtotime($start);
@@ -143,20 +98,16 @@ class ReservationController extends Controller
         $end = date('Y-m-d H:i:s',$end) ;
        // dd($start) ;
 
-       // dd($amount) ;
-    //   $startdate = date('Y-m-d H:i',$request->strt );
-      // $enddate = date('Y-m-d H:i',$request->end );
-   //   $c = $request->start->format('Y-m-d H:i') ; dd($c) ;
+         // dd($amount) ;
+        //   $startdate = date('Y-m-d H:i',$request->strt );
+       // $enddate = date('Y-m-d H:i',$request->end );
+      //   $c = $request->start->format('Y-m-d H:i') ; dd($c) ;
 
+        $days = round($days) ;
 
-        $op = reservation::create(['amount'=> $amount , 
-        "startday"=>$startday ,  "starthour"=>$starthour ,
-         "endday"=>$endday ,"endhour"=>$endhour ,
-          "period"=> $periode ,
-          "hours"=>round($hour) , 
-         "days" => $days] ) ;
+        $op = reservation::create(['amount'=> $amount , "start"=>$start , "end"=>$end , "period"=> $periode , "hours"=>round($hour) , "days" => $days] ) ;
         $opv = reservation_vehicules::create(['reservation_id'=>$op->id , "vehicule_id"=>$request->vehicule]) ;
-        $vehicule->update([  "nb_reservation" => $veh]) ;
+        $vehicule->update([  "nb_reservation" => $veh]) ; 
         return response()->json("Done" , 200 );
     }
     else 

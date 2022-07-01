@@ -16,10 +16,15 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->float('amount');
-            $table->string('startday');
+            $table->datetime('start');
+            $table->datetime('end');
+
+         /*   $table->string('startday');
             $table->string('starthour');
             $table->string('endday');
-            $table->string('endhour');
+            $table->string('endday');*/
+
+
             $table->string('period')->nullable();
             $table->integer('days')->nullable();
             $table->integer('hours')->nullable();

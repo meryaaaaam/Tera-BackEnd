@@ -552,4 +552,18 @@ public function storeImage(Request $request)
         }
     }
 
+
+
+
+    public function searchcar(Request $request)
+    {
+        $start = $request->start ; 
+        $end = $request->end ; 
+        $location = $request->location ;
+
+        
+
+
+    }
+
 }
