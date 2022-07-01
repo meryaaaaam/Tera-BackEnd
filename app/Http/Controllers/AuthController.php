@@ -39,11 +39,11 @@ class AuthController extends Controller
         }
         if (! $token = auth()->attempt($validator->validated())) {
             $email = User::Where('email', $request->email )->first() ;
-            
+
             if(! $email){
                 return response()->json(['message' => 'Vérifier votre email'], 401);
             }
-           else{return response()->json(['message' => 'Vérifier votre password'], 401);} 
+           else{return response()->json(['message' => 'Vérifier votre password'], 401);}
         }
         return $this->createNewToken($token);
     }
@@ -118,7 +118,9 @@ class AuthController extends Controller
     public function userProfile() {
        // return response()->json(auth()->user());
         if ( auth()->user() )
-        { return response()->json(auth()->user());}
+        { return response()->json(auth()->user());
+
+        }
         else
         { return response()->json(['message' => 'Authontification required' , 404]) ;  }
     }

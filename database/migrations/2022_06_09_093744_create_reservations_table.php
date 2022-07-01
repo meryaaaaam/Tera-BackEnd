@@ -16,9 +16,13 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->float('amount');
-            $table->datetime('start');
-            $table->datetime('end');
-            $table->integer('period')->nullable();
+            $table->string('startday');
+            $table->string('starthour');
+            $table->string('endday');
+            $table->string('endhour');
+            $table->string('period')->nullable();
+            $table->integer('days')->nullable();
+            $table->integer('hours')->nullable();
             $table->timestamps();
         });
     }

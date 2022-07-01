@@ -26,7 +26,11 @@ class VehiculeController extends Controller
 
        foreach ($vehicules as $v)
        {
-        $gallerie = Gallery::where('vehicule_id' , $v->id)->first() ;
+        $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
+        foreach ($gallerie as $g )
+        {
+            $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
+        }
         $model = Model::find( $v->model_id) ;
         $make = Make::find($model->make_id) ;
         $user = User::find($v->user_id) ;
@@ -40,9 +44,10 @@ class VehiculeController extends Controller
         'location'=>  $v->location ,
         'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
         'user'=>  $user->firstname." ".$user->lastname ,
-        "image" =>  $v->photo ,
+        'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
+        'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
         "nb" =>  $v->nb_reservation ,
-        //"gallerie" =>  $galleries ,
+        "images" =>  $images ,
 
     ];}
         else
@@ -194,7 +199,7 @@ class VehiculeController extends Controller
             $galleries = Gallery::where('vehicule_id' , $vehicule->id)->get() ;
             foreach($galleries as $gal)
             {
-                $images[] = ["path" => $gal["path"]] ;
+                $images[] = ["path" => "http://localhost:8000/storage/image/vehicule/".$gal["path"]] ;
             }
             $user = User::find( $vehicule->user_id ) ;
 
@@ -228,12 +233,12 @@ class VehiculeController extends Controller
                     'location'=>  $vehicule->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=> $user->firstname." ".$user->lastname,
-                    'user_photo' => $user->photo,
+                    'user_photo' => "http://localhost:8000/storage/image/".$user->photo,
                     'address'=> $adr,
                     'telephone'=> $user->phone,
                     'nb'=> $vehicule->nb_reservation,
                     'description'=> $vehicule->description,
-                    'photo'=> $vehicule->photo,
+                    'photo'=> "http://localhost:8000/storage/image/vehicule/".$vehicule->photo,
 
 
                     "gallerie" =>  $gallerie["path"] ,
@@ -287,11 +292,18 @@ class VehiculeController extends Controller
       $vehicule = Vehicule::where('user_id',$id)->get() ;
         foreach ($vehicule as $v)
         {
+            $images = array();
             $model = Model::find($v->model_id) ;
             $make = Make::find($model->make_id) ;
             $user = User::find($v->user_id) ;
-            $gallerie = Gallery::where('vehicule_id' , $v->id)->first() ;
-                if($gallerie){  $res[] = [   'id' => $v->id,
+            $gallerie = Gallery::where('vehicule_id' , $v->id)->get();
+            $images[] = ["name" => $v->photo] ; 
+            foreach($gallerie as $g )
+            {
+                $images[] = ["name"=> $g->name] ;
+            }
+                if($gallerie){ 
+                     $res[] = [   'id' => $v->id,
                     'km' => $v->km,
                     'matricule' => $v->matricule,
                     'Price_H' => $v->Price_H,
@@ -300,10 +312,12 @@ class VehiculeController extends Controller
                     'model' => $model->name,
                     'type' => $model->type,
                     'year' => $model->year,
-                    'user' =>$user->firstname.' '.$user->latsname ,
+                    'user' =>$user->firstname.' '.$user->lastname ,
+                    'authorImg' =>$user->photo ,
 
                     'make' => $make->name ,
-                   'image' => $gallerie->path,
+                   'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                   'images' => $images,
 
                     ] ;}
 

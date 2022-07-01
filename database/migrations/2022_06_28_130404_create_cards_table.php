@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('Driving_licence_side1');
             $table->string('Driving_licence_side2');
-            $table->string('holder_name');
-            $table->string('card_number');
-            $table->date('card_date');
-            $table->string('cvv');
+            $table->string('holder_name')->nullable();
+            $table->string('card_number')->nullable();
+            $table->date('card_date')->nullable();
+            $table->string('cvv')->nullable();
             $table->boolean('save')->nullable();
 
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
 
             $table->foreign('user_id')
             ->on('users')

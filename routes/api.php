@@ -56,6 +56,8 @@ Route::apiResource("makes", MakeController::class);
 Route::apiResource("vehicules", VehiculeController::class);
 
 Route::get('/vehiculeByuser/{id}', [VehiculeController::class, 'CarByUser']);
+
+Route::get('/totalprice', [ReservationController::class, 'totalprice']);
 Route::post('/uploadImage', [VehiculeController::class, 'uploadGallery']);
 Route::post('/gallerie', [VehiculeController::class, 'gallerieTest']);
 

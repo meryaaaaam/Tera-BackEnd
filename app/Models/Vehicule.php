@@ -28,7 +28,8 @@ class Vehicule extends Model
         'carburan',
         'nb_reservation',
         'balance' ,
-        'bail'
+        'bail',
+        'available'
 
 
     ];
@@ -49,6 +50,6 @@ class Vehicule extends Model
 
     public function reservations()
     {
-        return $this->belongsToMany(Vehicule::class ,  'reservation_vehicules', 'vehicule_id', 'options_id');
+        return $this->belongsToMany(reservation::class ,  'reservation_vehicules', 'vehicule_id', 'options_id');
     }
 }
