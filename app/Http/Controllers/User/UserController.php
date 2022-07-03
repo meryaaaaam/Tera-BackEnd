@@ -45,9 +45,9 @@ class UserController extends Controller
 
         $roleu = UserRoles::where('user_id',$user->id)->first();
          //  dd($roleu->role_id);
-        $role = Roles::find($roleu->role_id) ;
+        $role = Roles::find($roleu->id) ;
 
-       // dd($role);
+
         if ($user)
        {
 
