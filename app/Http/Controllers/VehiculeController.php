@@ -297,12 +297,12 @@ class VehiculeController extends Controller
             $make = Make::find($model->make_id) ;
             $user = User::find($v->user_id) ;
             $gallerie = Gallery::where('vehicule_id' , $v->id)->get();
-            $images[] = ["name" => $v->photo] ; 
+            $images[] = ["name" => $v->photo] ;
             foreach($gallerie as $g )
             {
                 $images[] = ["name"=> $g->name] ;
             }
-                if($gallerie){ 
+                if($gallerie){
                      $res[] = [   'id' => $v->id,
                     'km' => $v->km,
                     'matricule' => $v->matricule,
@@ -317,6 +317,7 @@ class VehiculeController extends Controller
 
                     'make' => $make->name ,
                    'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+
                    'images' => $images,
 
                     ] ;}
@@ -557,11 +558,11 @@ public function storeImage(Request $request)
 
     public function searchcar(Request $request)
     {
-        $start = $request->start ; 
-        $end = $request->end ; 
+        $start = $request->start ;
+        $end = $request->end ;
         $location = $request->location ;
 
-        
+
 
 
     }

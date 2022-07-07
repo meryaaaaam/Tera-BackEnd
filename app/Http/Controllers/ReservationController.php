@@ -14,9 +14,30 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $start = $request->start ;
+        $start = str_replace('/', '-', $start);
+        $end = $request->end ;
+        $end =str_replace('/', '-', $end);
+        $start =  strtotime($start) ;
+        $start = date('Y-m-d H:i:s',$start) ;
+        $end =  strtotime($end) ;
+        $end = date('Y-m-d H:i:s',$end) ;
+
+        $reservation = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
+            ->join('vehicules', 'vehicules.id' , 'reservations_vehicules.vehicule_id')
+        ->whereNot(function ($q) use($start, $end) {
+
+           $q->WhereBetween('start',[$start, $end])
+             ->orWhereBetween('end',[$start, $end])
+             ->orWhere(function($query) use($start, $end){
+                  $query->where('start','<=',$start)
+                        ->where('end','>=',$end) ;}
+             );
+
+                    } )->get();
+        return response()->json($reservation , 200 );
     }
 
     /**
@@ -36,12 +57,12 @@ class ReservationController extends Controller
             $end = $request->end ;
             $end =str_replace('/', '-', $end);
 
-      
+
             $available = true ;
-            $start =  strtotime($start) ; 
+            $start =  strtotime($start) ;
             $start = date('Y-m-d H:i:s',$start) ;
-            
-            $end =  strtotime($end) ; 
+
+            $end =  strtotime($end) ;
             $end = date('Y-m-d H:i:s',$end) ;
 
             $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
@@ -52,24 +73,24 @@ class ReservationController extends Controller
                 $query->where('start','<=',$start)
                       ->where('end','>=',$end) ;})
              ->first();
-            
+
             //whereDate('start','=', $start)->get();
            // dd($reservation) ;
             if($reservation)
                 {$available = false ;}
-            
- 
 
-         
-        
-       
-    
+
+
+
+
+
+
         if($available){
         $reservation = reservation_vehicules::where('vehicule_id' , $vehicule->id) ;
         $veh =  $vehicule->nb_reservation +1 ;
-        $hour = 0 ; 
+        $hour = 0 ;
         $days = 0 ;
-        
+
         $start = $request->start ;
         $start = str_replace('/', '-', $start);
         // dd($date)   ;
@@ -107,10 +128,10 @@ class ReservationController extends Controller
 
         $op = reservation::create(['amount'=> $amount , "start"=>$start , "end"=>$end , "period"=> $periode , "hours"=>round($hour) , "days" => $days] ) ;
         $opv = reservation_vehicules::create(['reservation_id'=>$op->id , "vehicule_id"=>$request->vehicule]) ;
-        $vehicule->update([  "nb_reservation" => $veh]) ; 
+        $vehicule->update([  "nb_reservation" => $veh]) ;
         return response()->json("Done" , 200 );
     }
-    else 
+    else
     {  return response()->json("This car not available for now" , 200 );
     }
     }
@@ -154,7 +175,7 @@ class ReservationController extends Controller
     {
         $vehicule = Vehicule::find($request->vehicule) ;
 
-       
+
 
 
         $start = $request->start ;
@@ -163,7 +184,7 @@ class ReservationController extends Controller
         $end = $request->end ;
         $end =str_replace('/', '-', $end);
       //  $periode = $end-$start ;
-            $p=0 ; 
+            $p=0 ;
             $h= 0 ;
         $end = strtotime($end) ;
         $start= strtotime($start);
