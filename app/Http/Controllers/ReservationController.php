@@ -33,7 +33,7 @@ class ReservationController extends Controller
         $end =  strtotime($end) ;
         $end = date('Y-m-d H:i:s',$end) ;
         $vehicule = Vehicule::All();
-        $reservation = array();
+        $reservations = array();
        /* $reservationvehicule = reservation_vehicules::all();
         $vehicule = Vehicule::All('id as vehicule_id')->toArray();
         $reservation = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
@@ -79,45 +79,41 @@ class ReservationController extends Controller
 
                                        } )
 
-                                       ->get('vehicule_id' )->toArray();
+                                       ->get('vehicule_id')->toArray();
 
                         }
-              foreach($reservation as $r) { dd($r); $reservations[] = $r['vehicule_id'];  }
-                      $reservation = array_unique($reservations) ;
+                       // return response()->json($reservation , 200 );
+                       // die();
+                     //
+                    // $reservation =array_values($reservation);
+                   //  dd($reservation);
 
-                    $i = 0 ;
-                $vehicules = Vehicule::All('vehicule_id')->toArray();
 
-            foreach($vehicules as $v)
+              foreach($reservation as $r) {
+                foreach($r as $rr)
+                {if($rr['vehicule_id']) {   $reservations[] = $rr['vehicule_id']; } }
+                //$reservations[] = $r['vehicule_id'];
+                 }
+                $reservations = array_unique($reservations) ;
+              //  dd($reservations);
+                $i = 0 ;
+                $vehicules = Vehicule::All('id')->toArray();
+               //  dd($vehicules);
+                foreach($vehicules as $v)
+                {  // dd($v['vehicule_id']);
+                    foreach($reservations as $r) {
+                     //   dump('-----------',$r , $v['id'], '--------------');
+                         if ($v['id'] == $r) { unset($vehicules[$i]); }
+                        } $i++;}
+ //$reservation = array() ;
+            foreach ($vehicules as $v )
             {
 
-                foreach($reservation as $r) { if ($v['vehicule_id'] == $r) { unset($vehicule[$i]); } } $i++;
-            }
-           // dd($vehicule);*/
-//$reservation = array() ;
-            foreach ($vehicule as $v )
-            {
+                $v = Vehicule::find($v['id']);
 
-                $v = Vehicule::find($v->id);
+                //dd($v);
 
-                $reservation[] = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
-                ->join('vehicules', function ($join) use ($v) {
-                    $join->on('vehicules.id', '=', 'reservations_vehicules.vehicule_id')
-                         ->where('vehicules.id', '=', $v->id);
-                }) ->where(function ($q) use($start, $end) {
-
-                    $q->WhereBetween('reservations.start',[$start, $end])
-                      ->orWhereBetween('reservations.end',[$start, $end])
-                      ->orWhere(function($query) use($start, $end){
-                           $query->where('reservations.start','<=',$start)
-                                 ->where('reservations.end','>=',$end) ;}
-                      );
-
-                             } )
-
-                             ->get('vehicule_id' );
-               //dd($reservation);
-               /* $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
+                 $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
                 foreach ($gallerie as $g )
                 {
                     $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
@@ -153,9 +149,10 @@ class ReservationController extends Controller
                         'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                         'user'=>  $user->firstname." ".$user->lastname ,
 
-                        ];}*/
-                        }
-            return response()->json($reservation , 200 );
+                        ];}
+
+                   }
+            return response()->json($res , 200 );
     }
 
     /**
@@ -182,18 +179,23 @@ class ReservationController extends Controller
 
             $end =  strtotime($end) ;
             $end = date('Y-m-d H:i:s',$end) ;
-
+            //dd($start , $end) ;
             $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)->first();
+
             if($reservation)
             {
-                $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
+
+                $reservations = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
             ->join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
-            ->WhereBetween('start',[$start, $end])
-            ->orWhereBetween('end',[$start, $end])
+            ->WhereBetween('reservations.start',[$start, $end])
+            ->orWhereBetween('reservations.end',[$start, $end])
             ->orWhere(function($query) use($start, $end){
-                $query->where('start','<=',$start)
-                      ->where('end','>=',$end) ;})
-             ->first();}
+                $query->where('reservations.start','<=',$start)
+                      ->where('reservations.end','>=',$end) ;})
+             ->first();
+             dd($reservations);
+            }
+
              else
              {$available = true ;}
             //    dd($reservation);
