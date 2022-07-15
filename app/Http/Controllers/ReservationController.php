@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
+use App\Models\Make;
+use App\Models\Model;
 use App\Models\reservation;
 use App\Models\reservation_vehicules;
+use App\Models\User;
 use App\Models\Vehicule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 
 class ReservationController extends Controller
 {
@@ -16,6 +22,8 @@ class ReservationController extends Controller
      */
     public function index(Request $request)
     {
+
+
         $start = $request->start ;
         $start = str_replace('/', '-', $start);
         $end = $request->end ;
@@ -24,20 +32,130 @@ class ReservationController extends Controller
         $start = date('Y-m-d H:i:s',$start) ;
         $end =  strtotime($end) ;
         $end = date('Y-m-d H:i:s',$end) ;
-
+        $vehicule = Vehicule::All();
+        $reservation = array();
+       /* $reservationvehicule = reservation_vehicules::all();
+        $vehicule = Vehicule::All('id as vehicule_id')->toArray();
         $reservation = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
-            ->join('vehicules', 'vehicules.id' , 'reservations_vehicules.vehicule_id')
-        ->whereNot(function ($q) use($start, $end) {
+        //->join('vehicules', 'vehicules.id' , 'reservations_vehicules.vehicule_id')
+      //   ->union($vehicule)
+            ->whereNot(function ($q) use($start, $end) {
 
-           $q->WhereBetween('start',[$start, $end])
-             ->orWhereBetween('end',[$start, $end])
+           $q->WhereBetween('reservations.start',[$start, $end])
+             ->orWhereBetween('reservations.end',[$start, $end])
              ->orWhere(function($query) use($start, $end){
-                  $query->where('start','<=',$start)
-                        ->where('end','>=',$end) ;}
+                  $query->where('reservations.start','<=',$start)
+                        ->where('reservations.end','>=',$end) ;}
              );
 
-                    } )->get();
-        return response()->json($reservation , 200 );
+                    } )
+
+                    ->get('vehicule_id')->toArray();
+
+*/
+           /* ->WhereBetween('reservations.start',[$start, $end])
+            ->orWhereBetween('reservations.end',[$start, $end])
+            ->orWhere(function($query) use($start, $end){
+                $query->where('reservations.start','<=',$start)
+                      ->where('reservations.end','>=',$end) ;})->get('vehicule_id') ;*/
+
+                      foreach ($vehicule as $v )
+                      {
+
+                          $v = Vehicule::find($v->id);
+
+                          $reservation[] = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
+                          ->join('vehicules', function ($join) use ($v) {
+                              $join->on('vehicules.id', '=', 'reservations_vehicules.vehicule_id')
+                                   ->where('vehicules.id', '=', $v->id);
+                          }) ->where(function ($q) use($start, $end) {
+
+                              $q->WhereBetween('reservations.start',[$start, $end])
+                                ->orWhereBetween('reservations.end',[$start, $end])
+                                ->orWhere(function($query) use($start, $end){
+                                     $query->where('reservations.start','<=',$start)
+                                           ->where('reservations.end','>=',$end) ;}
+                                );
+
+                                       } )
+
+                                       ->get('vehicule_id' )->toArray();
+
+                        }
+              foreach($reservation as $r) { dd($r); $reservations[] = $r['vehicule_id'];  }
+                      $reservation = array_unique($reservations) ;
+
+                    $i = 0 ;
+                $vehicules = Vehicule::All('vehicule_id')->toArray();
+
+            foreach($vehicules as $v)
+            {
+
+                foreach($reservation as $r) { if ($v['vehicule_id'] == $r) { unset($vehicule[$i]); } } $i++;
+            }
+           // dd($vehicule);*/
+//$reservation = array() ;
+            foreach ($vehicule as $v )
+            {
+
+                $v = Vehicule::find($v->id);
+
+                $reservation[] = reservation_vehicules::join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
+                ->join('vehicules', function ($join) use ($v) {
+                    $join->on('vehicules.id', '=', 'reservations_vehicules.vehicule_id')
+                         ->where('vehicules.id', '=', $v->id);
+                }) ->where(function ($q) use($start, $end) {
+
+                    $q->WhereBetween('reservations.start',[$start, $end])
+                      ->orWhereBetween('reservations.end',[$start, $end])
+                      ->orWhere(function($query) use($start, $end){
+                           $query->where('reservations.start','<=',$start)
+                                 ->where('reservations.end','>=',$end) ;}
+                      );
+
+                             } )
+
+                             ->get('vehicule_id' );
+               //dd($reservation);
+               /* $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
+                foreach ($gallerie as $g )
+                {
+                    $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
+                }
+                $model = Model::find( $v->model_id) ;
+                $make = Make::find($model->make_id) ;
+                $user = User::find($v->user_id) ;
+                if($gallerie)
+                {  $res[] = [
+                    "id" =>  $v->id ,
+                    "km" =>  $v->km ,
+                    "matricule" =>  $v->matricule ,
+                    "Price_D" =>  $v->Price_D ,
+                    "Price_H" =>  $v->Price_H ,
+
+                    'location'=>  $v->location ,
+                    'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
+                    'user'=>  $user->firstname." ".$user->lastname ,
+                    'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
+                    'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                    "nb" =>  $v->nb_reservation ,
+                    "images" =>  $images ,
+
+                ];}
+                    else
+                    {$res[] = ["id" =>  $v->id ,
+                        "km" =>  $v->km ,
+                        "matricule" =>  $v->matricule ,
+                        "Price_D" =>  $v->Price_D ,
+                        "Price_H" =>  $v->Price_D ,
+
+                        'location'=>  $v->location ,
+                        'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
+                        'user'=>  $user->firstname." ".$user->lastname ,
+
+                        ];}*/
+                        }
+            return response()->json($reservation , 200 );
     }
 
     /**
@@ -65,15 +183,20 @@ class ReservationController extends Controller
             $end =  strtotime($end) ;
             $end = date('Y-m-d H:i:s',$end) ;
 
-            $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
+            $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)->first();
+            if($reservation)
+            {
+                $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
             ->join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
             ->WhereBetween('start',[$start, $end])
             ->orWhereBetween('end',[$start, $end])
             ->orWhere(function($query) use($start, $end){
                 $query->where('start','<=',$start)
                       ->where('end','>=',$end) ;})
-             ->first();
-
+             ->first();}
+             else
+             {$available = true ;}
+            //    dd($reservation);
             //whereDate('start','=', $start)->get();
            // dd($reservation) ;
             if($reservation)

@@ -58,13 +58,14 @@ class AuthController extends Controller
             'firstname' => 'required|string|between:2,100',
             'lastname' => 'required|string|between:2,100',
             'phone' => 'required|min:7|max:15|string',
+            'date_nais' => 'date',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
-        ]);
+         ]);
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $role = $request->role ;
+        $role = 'user' ;
        // dd($role) ;
         $roles = Roles::where('role' , $role)->first() ;
 
