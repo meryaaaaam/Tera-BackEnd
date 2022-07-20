@@ -115,14 +115,14 @@ class UserController extends Controller
         $user = User::find($id) ;
          // La validation de données
    $this->validate($request, [
-        //'username' => 'max:100',
-        'firstname' => 'max:100',
-        'lastname' => 'max:100',
-        'phone' => 'max:100',
-        'city' => 'max:100',
-        'address' => 'max:100',
-        'state' => 'max:100',
-        'code' => 'max:100',
+        'username' => 'max:100|min:3',
+        'firstname' => 'max:100|min:3',
+        'lastname' => 'max:100|min:3',
+        'phone' => 'max:100|min:8',
+        'city' => 'max:100|min:3',
+        'address' => 'max:100|min:5',
+        'state' => 'max:100|min:3',
+        'code' => 'max:100|min:3',
         'email' => 'email',
         //'photo' => 'required|image',
        // 'password' => 'required|min:8'

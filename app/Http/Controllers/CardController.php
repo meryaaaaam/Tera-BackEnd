@@ -25,7 +25,12 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        $card =  card::create($request->all());
+        $card =  [
+            'Driving_licence_side1' => $request->Driving_licence_side1,
+            'Driving_licence_side2' => $request->Driving_licence_side2,
+            'user_id' => $request->user_id,
+        ];
+        $card =  card::create($card);
 
         //  $model = $respose->make()->save() ;
           return response()->json($card , 200 );
@@ -49,11 +54,18 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function update(Request $request, $id)
     {
-        //
-    }
+        $card = card::find($id) ;
 
+        $card->update( [
+            'Driving_licence_side1' => $request->Driving_licence_side1,
+            'Driving_licence_side2' => $request->Driving_licence_side2,
+            'user_id' => $request->user_id,
+        ]);
+        return response()->json(["card" => $card]);
+    }
     /**
      * Remove the specified resource from storage.
      *
