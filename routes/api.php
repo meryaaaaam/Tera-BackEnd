@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\DisputesController;
 use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\OptionsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VehiculeController;
@@ -72,4 +75,36 @@ Route::post('storeImages' , [VehiculeController::class , 'storeImages']) ;
 
 Route::apiResource("options", OptionsController::class);
 Route::apiResource("reservations", ReservationController::class);
+
+
+
+//payments
+Route::post('submit_security_deposit' , [PaymentController::class , 'submitSecurityDeposit']);
+Route::post('booking_payemnt' , [PaymentController::class , 'bookPayment']);
+Route::post('validate_payment' , [PaymentController::class , 'validatePayment']);
+
+//disputes
+Route::post('open_dispute' , [DisputesController::class , 'openDispute']);
+Route::get('get_all_disputes' , [DisputesController::class , 'index']);
+
+//bookings
+Route::get('get_all_bookings' , [BookingController::class, 'index']);
+
+//checkout page
+Route::post('display_balance' , [UserController::class, 'displayBalance']);
+
+//cashout
+Route::post('cashout' , [UserController::class, 'cashout']);
+Route::post('list_cashout' , [UserController::class, 'listCashout']);
+Route::post('validate_cashout' , [UserController::class, 'validateCashout']);
+
+//admin_dashboad
+Route::post('give_back_deposit' , [PaymentController::class , 'giveBackDeposit']);
+Route::post('collect_deposit' , [PaymentController::class , 'collectDeposit']);
+
+//booking status
+Route::post('change_booking_status' , [BookingController::class , 'changeBookingStatus']);
+
+//customize security deposit and Client Fee
+Route::post('security_deposit_and_client_fee' , [BookingController::class , 'SecurityDepositClientFee']);
 
