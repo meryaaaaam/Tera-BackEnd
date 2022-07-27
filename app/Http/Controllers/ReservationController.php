@@ -92,7 +92,7 @@ class ReservationController extends Controller
                  $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
                 foreach ($gallerie as $g )
                 {
-                    $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
+                    $images[] = "https://terarentals.com/backend/public//storage/image/vehicule/".$g->name ;
                 }
                 $model = Model::find( $v->model_id) ;
                 $make = Make::find($model->make_id) ;
@@ -108,8 +108,8 @@ class ReservationController extends Controller
                     'location'=>  $v->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=>  $user->firstname." ".$user->lastname ,
-                    'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
-                    'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                    'authorImg'=> "https://terarentals.com/backend/public//storage/image/". $user->photo,
+                    'image' => "https://terarentals.com/backend/public//storage/image/vehicule/".$v->photo,
                     "nb" =>  $v->nb_reservation ,
                     "images" =>  $images ,
 
@@ -315,7 +315,8 @@ class ReservationController extends Controller
 
         if($periode>1){
             $periode = (($end - $start)/3600)/24 ;
-            $amount = $vehicule->Price_D * round($periode+1) ;
+            $nb = round($periode);
+            $amount = $vehicule->Price_D * round($periode) ;
              //   dd($periode);
             $p = round($periode)." Jour" ;
         }
@@ -325,13 +326,14 @@ class ReservationController extends Controller
             $hour =  round($end - $start) ;
             $amount =   $vehicule->Price_H * $hour/3600;
             $h = (round($hour)/3600)." Heure";
+              $nb = round($hour)/3600;
         }
 
         $start = date('Y-m-d H:i:s',$start) ;
         $end = date('Y-m-d H:i:s',$end) ;
        // dd($start) ;}
 
-       return response()->json([ "amount"=>$amount , 'hour'=>$h , 'days'=>$p]);
+       return response()->json([ "amount"=>$amount , 'hour'=>$h , 'days'=>$p , 'nb_date_Or_Hour' => $nb]);
 }
 
 }
