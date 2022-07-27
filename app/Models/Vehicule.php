@@ -37,7 +37,7 @@ class Vehicule extends Model
 
     public function options()
     {
-        return $this->belongsToMany(option::class , 'vehicule_Options', 'vehicule_id', 'options_id');
+        return $this->belongsToMany(option::class , 'vehicule_options', 'vehicule_id', 'options_id');
     }
 
 

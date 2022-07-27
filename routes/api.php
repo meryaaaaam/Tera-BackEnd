@@ -69,6 +69,7 @@ Route::post('/create/makes' , [MakeController::class , 'storeMany']) ;
 Route::post('/create/models' , [ModelController::class , 'storeMany']) ;
 
 
+Route::post('storeImage1' , [CardController::class , 'storeImage']) ;
 Route::post('storeImage' , [VehiculeController::class , 'storeImage']) ;
 Route::post('storeImages' , [VehiculeController::class , 'storeImages']) ;
 

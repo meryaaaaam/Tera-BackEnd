@@ -76,4 +76,18 @@ class CardController extends Controller
     {
         //
     }
+    public function storeImage(Request $request)
+{
+    if ($request->hasFile('img'))
+      {
+
+        $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileNameToStore= $filename.'.'.$extension;
+            $path = $request->file('img')->storeAs('public/image/permis', $fileNameToStore);
+
+      }
+}
 }

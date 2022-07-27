@@ -268,11 +268,54 @@ class VehiculeController extends Controller
     {
         $response = Vehicule::find($id) ;
         $model = Model::find($response->model_id) ;
-        $response->update($request->all() );
+        $response->update( [
+            'km' => $request->km,
+            'matricule' => $request->matricule,
+            'portes' => $request->portes,
+            'carburant' => $request->carburant,
+            'transmission' => $request->transmission,
+            'siege' => $request->siege,
+            'Price_H' => $request->Price_H,
+            'Price_D' => $request->Price_D,
+            'location' => $request->location,
+            'model_id' => $request->model_id,
+            'user_id' => $request->user_id,
+            'description' => $request->description,
+            'photo' => $request->photo,
+            'options' => $request->options,
+            'bail' => $request->bail,
+
+        ]) ;
+        if($request->options)
+        {$response->options()->detach();
+            foreach($request->options as $op)
+        {
+            vehicule_Options::create([ "vehicule_id" => $response->id , "option_id" => $op ]);
+        }}
 
 
-        return response()->json($response , 200);
+       if($request->galleries)
+       {$response->Gallery()->where('vehicule_id',$id)->delete();
+
+            foreach($request->galleries as $gal)
+        {
+            $gallerie[] = $gal ;
+           Gallery::create([
+               "vehicule_id" => $response->id , "path" => $gal['path'] , "size"=> $gal["size"] , "name"=> $gal["name"]
+           ]);
+
+
+
+
+        }}
+
+         return response()->json($response , 200 );
+
     }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -282,7 +325,15 @@ class VehiculeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $vehicule=Vehicule::find($id);
+        $vehicule->delete();
+
+        $options=vehicule_Options::where('vehicule_id',$id);
+        $options->delete();
+
+        $photos=Gallery::where('vehicule_id',$id);
+        $photos->delete();
+
     }
 
 
