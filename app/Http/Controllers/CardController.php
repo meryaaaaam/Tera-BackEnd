@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\card;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CardController extends Controller
@@ -15,20 +16,23 @@ class CardController extends Controller
     public function index()
     {
         $cards=card::All();
+
         foreach ($cards as $c)
         {
             $user = User::find($c->user_id) ;
 
             $res[] = [
                 'user'=>  $user->firstname." ".$user->lastname ,
+
                 'Driving_licence_side1'=> "http://localhost:8000/storage/image/permis/". $c->Driving_licence_side1,
-            'Driving_licence_side2' => "http://localhost:8000/storage/image/permis/".$c->Driving_licence_side2,  
-            'image'=>  "http://localhost:8000/storage/image/". $c->photo ,
-            'phone'=>  $user->phone ,
-            'email'=>  $user->email ,
-            
+                'Driving_licence_side2' => "http://localhost:8000/storage/image/permis/".$c->Driving_licence_side2,
+                'image'=>  "http://localhost:8000/storage/image/". $c->photo ,
+                'phone'=>  $user->phone ,
+                'email'=>  $user->email ,
+
         ];
         }
+
         return response()->json($res);
     }
 
@@ -69,7 +73,7 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function update(Request $request, $id)
     {
         $card = card::find($id) ;
