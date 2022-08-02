@@ -119,7 +119,26 @@ class AuthController extends Controller
     public function userProfile() {
        // return response()->json(auth()->user());
         if ( auth()->user() )
-        { return response()->json(auth()->user());
+        {
+            $role_user = UserRoles::where('user_id',auth()->user()->id)->first();
+            $res = [
+                "id"=> auth()->user()->id,
+                "firstname"=> auth()->user()->firstname,
+                "lastname"=> auth()->user()->lastname,
+                "username"=> auth()->user()->username,
+                "addresse"=> auth()->user()->addresse,
+                "email"=> auth()->user()->email,
+                "phone"=> auth()->user()->phone,
+                "date_nais"=> auth()->user()->date_nais,
+                "link"=> auth()->user()->link,
+                "photo"=> auth()->user()->photo,
+                "bio"=> auth()->user()->bio,
+                "address_id"=> auth()->user()->address_id,
+                "balance"=> auth()->user()->balance,
+                "role"=> Roles::find($role_user->id)->role
+            ];
+           // dd(auth()->user()->id) ;
+           return response()->json($res);
 
         }
         else
@@ -133,11 +152,29 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     protected function createNewToken($token){
+
+        $role_user = UserRoles::where('user_id',auth()->user()->id)->first();
+        $res = [
+            "id"=> auth()->user()->id,
+            "firstname"=> auth()->user()->firstname,
+            "lastname"=> auth()->user()->lastname,
+            "username"=> auth()->user()->username,
+            "addresse"=> auth()->user()->addresse,
+            "email"=> auth()->user()->email,
+            "phone"=> auth()->user()->phone,
+            "date_nais"=> auth()->user()->date_nais,
+            "link"=> auth()->user()->link,
+            "photo"=> auth()->user()->photo,
+            "bio"=> auth()->user()->bio,
+            "address_id"=> auth()->user()->address_id,
+            "balance"=> auth()->user()->balance,
+            "role"=> Roles::find($role_user->id)->role
+        ];
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => auth()->user()
+            'user' =>  $res
         ]);
     }
 }
