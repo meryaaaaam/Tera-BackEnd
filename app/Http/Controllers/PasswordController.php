@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\MatchOldPassword;
+
 
 class PasswordController extends Controller
 {
@@ -27,7 +29,7 @@ class PasswordController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         if ( auth()->user() )
         {
             $current = Hash::check($request->password_current, auth()->user()->password);
