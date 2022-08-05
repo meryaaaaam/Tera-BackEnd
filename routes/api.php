@@ -49,6 +49,7 @@ Route::group([
 });
 
 Route::apiResource("users", UserController::class);
+Route::apiResource("passwd", PasswordController::class);
 Route::apiResource("cards", CardController::class);
 //Route::put('/update/{id}', [UserController::class, 'update']);
 
