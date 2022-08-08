@@ -11,6 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\VehiculeController;
+use App\Http\Controllers\PasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,7 @@ Route::group([
 });
 
 Route::apiResource("users", UserController::class);
+Route::apiResource("passwd", PasswordController::class);
 Route::apiResource("cards", CardController::class);
 //Route::put('/update/{id}', [UserController::class, 'update']);
 
