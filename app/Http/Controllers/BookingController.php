@@ -165,4 +165,11 @@ class BookingController extends Controller
         }
 
     }
+    public function getBookingsByUser($id)
+    {
+        $bookings=Booking::where('user_id',$id)->get();
+        return response()->json(['bookings' => $bookings]);
+
+
+    }
 }

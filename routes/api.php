@@ -92,6 +92,7 @@ Route::get('get_all_disputes' , [DisputesController::class , 'index']);
 
 //bookings
 Route::get('get_all_bookings' , [BookingController::class, 'index']);
+Route::get('get_bookings/{id}' , [BookingController::class, 'getBookingsByUser']);
 
 //checkout page
 Route::post('display_balance' , [UserController::class, 'displayBalance']);
