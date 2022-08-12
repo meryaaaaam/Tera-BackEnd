@@ -168,7 +168,7 @@ class AuthController extends Controller
             "bio"=> auth()->user()->bio,
             "address_id"=> auth()->user()->address_id,
             "balance"=> auth()->user()->balance,
-            "role"=> Roles::find($role_user->id)->role
+            "role"=> Roles::find($role_user->role_id)->role
         ];
         return response()->json([
             'access_token' => $token,

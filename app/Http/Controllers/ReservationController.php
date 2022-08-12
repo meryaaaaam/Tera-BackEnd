@@ -92,7 +92,8 @@ class ReservationController extends Controller
                  $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
                 foreach ($gallerie as $g )
                 {
-                    $images[] = "https://terarentals.com/backend/public//storage/image/vehicule/".$g->name ;
+                   $images[] = "https://terarentals.com/backend/public//storage/image/vehicule/".$g->name ;
+                  //  $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
                 }
                 $model = Model::find( $v->model_id) ;
                 $make = Make::find($model->make_id) ;
@@ -109,7 +110,9 @@ class ReservationController extends Controller
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=>  $user->firstname." ".$user->lastname ,
                     'authorImg'=> "https://terarentals.com/backend/public//storage/image/". $user->photo,
+                    //'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
                     'image' => "https://terarentals.com/backend/public//storage/image/vehicule/".$v->photo,
+                    //'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
                     "nb" =>  $v->nb_reservation ,
                     "images" =>  $images ,
 

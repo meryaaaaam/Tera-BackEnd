@@ -367,7 +367,8 @@ class VehiculeController extends Controller
                     'authorImg' =>$user->photo ,
 
                     'make' => $make->name ,
-                   'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                  // 'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                   'image' => "https://terarentals.com/backend/public//storage/image/vehicule/".$v->photo,
 
                    'images' => $images,
 
