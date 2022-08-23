@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use App\Rules\MatchOldPassword;
-
 
 class PasswordController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -34,33 +33,33 @@ class PasswordController extends Controller
         {
             $current = Hash::check($request->password_current, auth()->user()->password);
            // dd($current) ; die() ;
- 
+
             if($current)
             {
- 
+
                 $request->validate([
                     'password_current' => ['required',  new MatchOldPassword],
                     'new_password' => ['required'],
                     'new_confirm_password' => ['same:new_password'],
                 ]);
- 
+
                 User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
             }
             else
             { return response()->json(['message' => 'Check your password' ]);}
- 
- 
- 
- 
+
+
+
+
             return response()->json( ['message' => 'Password change successfully' ,'data' => auth()->user() ]);
- 
+
         }
         else
         { return response()->json(['message' => 'Authontification required' , 404]) ;  }
- 
- 
- 
- 
+
+
+
+
 
     }
 

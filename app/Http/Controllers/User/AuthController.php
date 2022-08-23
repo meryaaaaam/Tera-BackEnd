@@ -1,8 +1,11 @@
 <?php
-namespace App\Http\Controllers;
 
-use App\Models\Roles;
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Roles;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,8 +13,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserRoles;
-
-//use Validator;
 
 class AuthController extends Controller
 {
@@ -78,7 +79,7 @@ class AuthController extends Controller
         $userroles = UserRoles::create (['role_id' => $roles->id , 'user_id' => $user->id]) ;
 
         return response()->json([
-            'message' => 'User successfully registered',
+            'message' => 'User successfully registered !',
             'user' => $user ,
             'user role' => $userroles ,
         ], 201);
@@ -121,6 +122,7 @@ class AuthController extends Controller
         if ( auth()->user() )
         {
             $role_user = UserRoles::where('user_id',auth()->user()->id)->first();
+
             $res = [
                 "id"=> auth()->user()->id,
                 "firstname"=> auth()->user()->firstname,
@@ -135,7 +137,7 @@ class AuthController extends Controller
                 "bio"=> auth()->user()->bio,
                 "address_id"=> auth()->user()->address_id,
                 "balance"=> auth()->user()->balance,
-                "role"=> Roles::find($role_user->id)->role
+                "role"=> Roles::find($role_user->role_id)->role
             ];
            // dd(auth()->user()->id) ;
            return response()->json($res);

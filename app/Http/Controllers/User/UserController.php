@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\Roles;
 use App\Models\UserRoles;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -115,14 +117,14 @@ class UserController extends Controller
         $user = User::find($id) ;
          // La validation de données
    $this->validate($request, [
-        'username' => 'max:100|min:3',
-        'firstname' => 'max:100|min:3',
-        'lastname' => 'max:100|min:3',
-        'phone' => 'max:100|min:8',
-        'city' => 'max:100|min:3',
-        'address' => 'max:100|min:5',
-        'state' => 'max:100|min:3',
-        'code' => 'max:100|min:3',
+        //'username' => 'max:100',
+        'firstname' => 'max:100',
+        'lastname' => 'max:100',
+        'phone' => 'max:100',
+        'city' => 'max:100',
+        'address' => 'max:100',
+        'state' => 'max:100',
+        'code' => 'max:100',
         'email' => 'email',
         //'photo' => 'required|image',
        // 'password' => 'required|min:8'
@@ -216,6 +218,109 @@ class UserController extends Controller
     }
 }
 
+
+    public function displayBalance(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'user_id' => 'required'
+            ]);
+
+            $data = $request->all();
+            //get the total balance data and the list of all the transactions
+            $user = User::where('id', $data['user_id'])->with('transactions')->first();
+            return response()->json(['client_data'=> $user]);
+
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+
+    public function cashout(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'user_id' => 'required',
+                'amount' => 'required'
+            ]);
+
+
+            $data = $request->all();
+            $user = User::where('id', $data['user_id'])->first();
+
+            if ($data['amount'] > $user->balance) {
+                return response()->json(['message' => 'You do not have enough balance'],417);
+            }
+
+
+            $paymentModel = new Payment();
+            $paymentModel->amount = !empty($data['amount']) ? $data['amount'] : null;
+            $paymentModel->user_id = !empty($data['user_id']) ? $data['user_id'] : null;
+            $paymentModel->is_security_deposit = false;
+            $paymentModel->is_cash_out = true;
+            $paymentModel->cashout_status = "Pending";
+            $paymentModel->save();
+
+            // $previousBalance = $user->balance;
+            // $newBalance = $previousBalance - $data['amount'];
+            // $user->update(['balance' => $newBalance ]);
+
+            return response()->json(['message'=> 'You have requested a cashout of amount ' . $data['amount']]);
+
+        } catch (Exception $e) {
+            return $e;
+        }
+        //check the balance and request for a cashout.
+    }
+
+
+    public function listCashout(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'user_id' => 'required',
+            ]);
+
+            $data = $request->all();
+            $cashoutPayments =  Payment::with('user')->where('is_cash_out',true)->where('user_id',$data['user_id'])->get();
+            return response()->json(['cashoutPayments' => $cashoutPayments]);
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+
+    public function validateCashout(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'user_id' => 'required',
+                'cashout_id' => 'required'
+            ]);
+
+            $data = $request->all();
+
+            $payment =  Payment::where('id',$data['cashout_id'])->first();
+
+            $user = User::where('id', $data['user_id'])->first();
+
+            $previousBalance = $user->balance;
+            $newBalance = $previousBalance - $payment->amount;
+            $user->update(['balance' => $newBalance ]);
+
+            $payment->update(['cashout_status' => "Validated"]);
+
+            return response()->json(['message'=> 'Cashout Approved Successfully']);
+
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
 
 
 }

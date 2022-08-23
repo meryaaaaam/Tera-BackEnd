@@ -24,9 +24,9 @@ class CardController extends Controller
             $res[] = [
                 'user'=>  $user->firstname." ".$user->lastname ,
 
-                'Driving_licence_side1'=> "https://terarentals.com/backend/public/storage/image/permis/". $c->Driving_licence_side1,
-                'Driving_licence_side2' => "https://terarentals.com/backend/public/storage/image/permis/".$c->Driving_licence_side2,
-                'image'=>  "https://terarentals.com/backend/public/storage/image/". $user->photo ,
+                'Driving_licence_side1'=> "https://7rentals.com/backend/public/storage/image/permis/". $c->Driving_licence_side1,
+                'Driving_licence_side2' => "https://7rentals.com/backend/public/storage/image/permis/".$c->Driving_licence_side2,
+                'image'=>  "https://7rentals.com/backend/public/storage/image/". $user->photo ,
                 'phone'=>  $user->phone ,
                 'email'=>  $user->email ,
 

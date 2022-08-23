@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VehiculeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DisputesController;
@@ -10,8 +10,9 @@ use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\VehiculeController;
-use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\User\EmailVerificationController;
+use App\Http\Controllers\User\PasswordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,8 @@ Route::group([
 
 
 });
+Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail']);
+Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify') ;
 
 Route::apiResource("users", UserController::class);
 Route::apiResource("passwd", PasswordController::class);

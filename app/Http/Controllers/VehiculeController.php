@@ -29,7 +29,7 @@ class VehiculeController extends Controller
         $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
         foreach ($gallerie as $g )
         {
-            $images[] = "http://localhost:8000/storage/image/vehicule/".$g->name ;
+            $images[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$g->name ;
         }
         $model = Model::find( $v->model_id) ;
         $make = Make::find($model->make_id) ;
@@ -44,8 +44,8 @@ class VehiculeController extends Controller
         'location'=>  $v->location ,
         'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
         'user'=>  $user->firstname." ".$user->lastname ,
-        'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
-        'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+        'authorImg'=> "https://7rentals.com/backend/public/storage/image/". $user->photo,
+        'image' => "https://7rentals.com/backend/public/storage/image/vehicule/".$v->photo,
         "nb" =>  $v->nb_reservation ,
         "images" =>  $images ,
 
@@ -199,7 +199,7 @@ class VehiculeController extends Controller
             $galleries = Gallery::where('vehicule_id' , $vehicule->id)->get() ;
             foreach($galleries as $gal)
             {
-                $images[] = ["path" => "http://localhost:8000/storage/image/vehicule/".$gal["path"]] ;
+                $images[] = ["path" => "https://7rentals.com/backend/public/storage/image/vehicule/".$gal["path"]] ;
             }
             $user = User::find( $vehicule->user_id ) ;
 
@@ -233,12 +233,15 @@ class VehiculeController extends Controller
                     'location'=>  $vehicule->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=> $user->firstname." ".$user->lastname,
-                    'user_photo' => "http://localhost:8000/storage/image/".$user->photo,
+                    'user_id'=> $user->id,
+                     'user_photo' => "https://7rentals.com/backend/public/storage/image/".$user->photo,
+                    //'user_photo' => "http://localhost:8000/storage/image/".$user->photo,
                     'address'=> $adr,
                     'telephone'=> $user->phone,
                     'nb'=> $vehicule->nb_reservation,
                     'description'=> $vehicule->description,
-                    'photo'=> "http://localhost:8000/storage/image/vehicule/".$vehicule->photo,
+                    // 'photo'=> "http://localhost:8000/storage/image/vehicule/".$vehicule->photo,
+                     'photo'=> "https://7rentals.com/backend/public/storage/image/vehicule/".$vehicule->photo,
 
 
                     "gallerie" =>  $gallerie["path"] ,
@@ -339,67 +342,74 @@ class VehiculeController extends Controller
 
     public function CarByUser($id)
     {
-
+      $res =array();
       $vehicule = Vehicule::where('user_id',$id)->get() ;
-        foreach ($vehicule as $v)
-        {
-            $images = array();
-            $model = Model::find($v->model_id) ;
-            $make = Make::find($model->make_id) ;
-            $user = User::find($v->user_id) ;
-            $gallerie = Gallery::where('vehicule_id' , $v->id)->get();
-            $images[] = ["name" => $v->photo] ;
-            foreach($gallerie as $g )
+
+      if($vehicule->toArray())
+       {
+         foreach ($vehicule as $v)
             {
-                $images[] = ["name"=> $g->name] ;
+                $images = array();
+                $model = Model::find($v->model_id) ;
+                $make = Make::find($model->make_id) ;
+                $user = User::find($v->user_id) ;
+                $gallerie = Gallery::where('vehicule_id' , $v->id)->get();
+                $images[] = ["name" => $v->photo] ;
+                foreach($gallerie as $g )
+                {
+                    $images[] = ["name"=> $g->name] ;
+                }
+                    if($gallerie){
+                        $res[] = [   'id' => $v->id,
+                        'km' => $v->km,
+                        'matricule' => $v->matricule,
+                        'Price_H' => $v->Price_H,
+                        'Price_D' => $v->Price_D,
+                        'location' => $v->location,
+                        'model' => $model->name,
+                        'type' => $model->type,
+                        'year' => $model->year,
+                        'user' =>$user->firstname.' '.$user->lastname ,
+                        'authorImg' =>$user->photo ,
+
+                        'make' => $make->name ,
+                    // 'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                    'image' => "https://7rentals.com/backend/public/storage/image/vehicule/".$v->photo,
+
+                    'images' => $images,
+
+                        ] ;}
+
+                    else
+                    {  $res[] = [   'id' => $v->id,
+                        'km' => $v->km,
+                        'matricule' => $v->matricule,
+                        'Price_H' => $v->Price_H,
+                        'Price_D' => $v->Price_D,
+                        'location' => $v->location,
+                        'model' => $model->name,
+                        'type' => $model->type,
+                        'year' => $model->year,
+                        'user' =>$user->firstname.' '.$user->latsname ,
+
+                        'make' => $make->name ,
+
+
+                        ] ;}
+                     // dd() ;
+
+
             }
-                if($gallerie){
-                     $res[] = [   'id' => $v->id,
-                    'km' => $v->km,
-                    'matricule' => $v->matricule,
-                    'Price_H' => $v->Price_H,
-                    'Price_D' => $v->Price_D,
-                    'location' => $v->location,
-                    'model' => $model->name,
-                    'type' => $model->type,
-                    'year' => $model->year,
-                    'user' =>$user->firstname.' '.$user->lastname ,
-                    'authorImg' =>$user->photo ,
-
-                    'make' => $make->name ,
-                  // 'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
-                   'image' => "https://terarentals.com/backend/public//storage/image/vehicule/".$v->photo,
-
-                   'images' => $images,
-
-                    ] ;}
-
-                else
-                {  $res[] = [   'id' => $v->id,
-                    'km' => $v->km,
-                    'matricule' => $v->matricule,
-                    'Price_H' => $v->Price_H,
-                    'Price_D' => $v->Price_D,
-                    'location' => $v->location,
-                    'model' => $model->name,
-                    'type' => $model->type,
-                    'year' => $model->year,
-                    'user' =>$user->firstname.' '.$user->latsname ,
-
-                    'make' => $make->name ,
-
-
-                    ] ;}
-          // dd() ;
-
-
         }
 
+      else
+      { $message = "NO Car Found! - Add New Car" ; $res = [] ;}
 
-    //  $model = Model::find($vehicule->model_id) ;
-    //  $make = Make::find($model->make_id) ;
 
-    return response()->json($res);
+                //  $model = Model::find($vehicule->model_id) ;
+                //  $make = Make::find($model->make_id) ;
+
+     return response()->json($res);
 
 
     }

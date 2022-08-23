@@ -390,7 +390,7 @@ class PaymentController extends Controller
 
 
         $transaction = Payment::where('user_id',$data['user_id'])->where('type','PA')->first();
-
+       // dd($transaction) ;
 
         $merchant_id = '383610961'; //INSERT MERCHANT ID (must be a 9 digit string)
         $api_key = '31b131a891aA409d96D7Fdae001bD5D6'; //INSERT API ACCESS PASSCODE
