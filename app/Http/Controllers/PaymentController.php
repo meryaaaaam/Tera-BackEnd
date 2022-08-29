@@ -167,6 +167,7 @@ class PaymentController extends Controller
             'number_of_days' => 'required',
             'car_model' => 'required',
             'extras' => 'nullable',
+            'host_id' => 'required',
         ]);
 
         $data = $request->all();
@@ -242,6 +243,8 @@ class PaymentController extends Controller
                 $booking->customer_email = $user->email;
                 $booking->booking_title = $data['car_model'];
                 $booking->booking_status = 'Pending';
+                $booking->vehicule_id = $data['car_id'];
+                $booking->host_id = $data['host_id'];
                 $booking->save();
 
                 return $result;

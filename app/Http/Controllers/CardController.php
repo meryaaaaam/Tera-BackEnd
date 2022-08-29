@@ -29,6 +29,8 @@ class CardController extends Controller
                 'image'=>  "https://7rentals.com/backend/public/storage/image/". $user->photo ,
                 'phone'=>  $user->phone ,
                 'email'=>  $user->email ,
+                'user_id'=>  $user->id ,
+                'user_status'=>  $user->user_status ,
 
         ];
         }

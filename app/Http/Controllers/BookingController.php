@@ -172,4 +172,14 @@ class BookingController extends Controller
 
 
     }
+
+    public function getBookingsRequest($id)
+    {
+        $bookings=Booking::where('host_id',$id)->with(['user','payment'])->get();
+
+        if($bookings)
+       { return response()->json(['bookings' => $bookings]);}
+       else
+       { return response()->json(['bookings' => 'No bbokings Found']);}
+    }
 }

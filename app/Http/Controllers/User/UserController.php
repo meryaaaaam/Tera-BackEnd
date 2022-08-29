@@ -150,7 +150,7 @@ class UserController extends Controller
     }
     $user->update([
         "username" => $request->username,
-        "firtname" => $request->firstname,
+        "firstname" => $request->firstname,
         "lastname" => $request->lastname,
        // "photo" => $request->photo,
         "date_nais" => $request->date_nais,
@@ -320,6 +320,18 @@ class UserController extends Controller
         } catch (Exception $e) {
             return $e;
         }
+    }
+
+
+    public function Change_user_status(Request $request)
+    {
+
+        try
+       { $user = User::findOrfail($request->user_id);
+        $user->update(['user_status' => $request->user_status ]);
+        return response()->json(['Result'=> User::findOrfail($request->user_id)]);}
+        catch(Exception $e)
+        {return $e ; }
     }
 
 

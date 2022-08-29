@@ -53,7 +53,7 @@ Route::post('/email/verification-notification', [EmailVerificationController::cl
 Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify') ;
 
 Route::apiResource("users", UserController::class);
-Route::apiResource("passwd", PasswordController::class);
+Route::apiResource("change_password", PasswordController::class);
 Route::apiResource("cards", CardController::class);
 //Route::put('/update/{id}', [UserController::class, 'update']);
 
@@ -96,6 +96,7 @@ Route::get('get_all_disputes' , [DisputesController::class , 'index']);
 //bookings
 Route::get('get_all_bookings' , [BookingController::class, 'index']);
 Route::get('get_bookings/{id}' , [BookingController::class, 'getBookingsByUser']);
+Route::get('get_bookings_requests/{id}' , [BookingController::class, 'getBookingsRequest']);
 
 //checkout page
 Route::post('display_balance' , [UserController::class, 'displayBalance']);
@@ -114,4 +115,5 @@ Route::post('change_booking_status' , [BookingController::class , 'changeBooking
 
 //customize security deposit and Client Fee
 Route::post('security_deposit_and_client_fee' , [BookingController::class , 'SecurityDepositClientFee']);
+Route::put('Change_user_status' , [UserController::class , 'Change_user_status']);
 

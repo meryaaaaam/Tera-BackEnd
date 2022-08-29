@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('user_status',['Pending','Approved','Declined'])->nullable();
+            $table->enum('user_status',['Pending','Approved','Declined'])->default('Pending');
+            $table->boolean('isActive')->default(1);
         });
     }
 
