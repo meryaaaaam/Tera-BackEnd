@@ -85,4 +85,8 @@ class User extends Authenticatable implements JWTSubject,MustVerifyEmail
         return $this->hasMany(Payment::class)->where('type','P');
     }
 
+    public function vehicules()
+    {
+        return $this->hasMany(Vehicule::class);
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\ModelController;
 use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\AuthController;
 use App\Http\Controllers\User\EmailVerificationController;
@@ -55,6 +56,9 @@ Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'ver
 Route::apiResource("users", UserController::class);
 Route::apiResource("change_password", PasswordController::class);
 Route::apiResource("cards", CardController::class);
+Route::apiResource("reviews", ReviewsController::class);
+Route::get('/host/reviews/{id}', [ReviewsController::class, 'Fetch_Reviews_For_User']);
+
 //Route::put('/update/{id}', [UserController::class, 'update']);
 
 Route::post('/uploadphoto/{id}', [UserController::class, 'uploadPhoto']);

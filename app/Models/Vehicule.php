@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Model as ModelsModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -46,10 +47,20 @@ class Vehicule extends Model
         return $this->hasMany(Gallery::class);
     }
 
+    public function Model()
+    {
+        return $this->hasOne(ModelsModel::class);
+    }
+
 
 
     public function reservations()
     {
-        return $this->belongsToMany(reservation::class ,  'reservation_vehicules', 'vehicule_id', 'options_id');
+        return $this->belongsToMany(reservation::class ,  'reservations_vehicules', 'vehicule_id', 'reservation_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(reviews::class);
     }
 }

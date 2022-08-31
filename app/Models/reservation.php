@@ -11,14 +11,14 @@ class reservation extends Model
 
     protected $fillable = [
         'amount',
-        'start', 'end',
-       /* 'startday',
-        'starthour',
-        'endday',
-        'endhour',*/
+        'start',
+        'end',
         'days',
         'hours',
         'period',
+        'customer_id',
+        'booking_title',
+        'booking_status'
 
     ];
 
@@ -28,4 +28,6 @@ class reservation extends Model
     {
         return $this->belongsToMany(Vehicule::class);
     }
+
+
 }

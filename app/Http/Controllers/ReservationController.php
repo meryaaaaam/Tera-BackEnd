@@ -142,23 +142,18 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-            $vehicule = Vehicule::find($request->vehicule) ;
-            $start = $request->start ;
-            $start = str_replace('/', '-', $start);
-           /* $day = substr($start,0 ,10);    // returns "f"
-            $hour = substr($start, 12);    // returns "f"
-            dd($day);*/
-            $end = $request->end ;
-            $end =str_replace('/', '-', $end);
-
-
+            $vehicule  = Vehicule::find($request->vehicule) ;
+            $customer_id = $request->customer_id ;
+            $booking_title = $request->booking_title ;
+            $start     = $request->start ;
+            $start     = str_replace('/', '-', $start);
+            $end       = $request->end ;
+            $end       = str_replace('/', '-', $end);
+            $start     =  strtotime($start) ;
+            $start     = date('Y-m-d H:i:s',$start) ;
+            $end       =  strtotime($end) ;
+            $end       = date('Y-m-d H:i:s',$end) ;
             $available = true ;
-            $start =  strtotime($start) ;
-            $start = date('Y-m-d H:i:s',$start) ;
-
-            $end =  strtotime($end) ;
-            $end = date('Y-m-d H:i:s',$end) ;
-            //dd($start , $end) ;
             $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)->first();
 
             if($reservation)
@@ -181,20 +176,6 @@ class ReservationController extends Controller
 
                              ->first();
 
-
-
-
-
-
-           /*     $reservations = reservation_vehicules::where('vehicule_id' ,$vehicule->id)
-            ->join('reservations', 'reservations.id' , 'reservations_vehicules.reservation_id')
-            ->WhereBetween('reservations.start',[$start, $end])
-            ->orWhereBetween('reservations.end',[$start, $end])
-            ->orWhere(function($query) use($start, $end){
-                $query->where('reservations.start','<=',$start)
-                      ->where('reservations.end','>=',$end) ;})
-             ->first();*/
-           //  dd($reservation);
             }
 
              else
@@ -252,7 +233,18 @@ class ReservationController extends Controller
 
         $days = round($days) ;
 
-        $op = reservation::create(['amount'=> $amount , "start"=>$start , "end"=>$end , "period"=> $periode , "hours"=>round($hour) , "days" => $days] ) ;
+        $op = reservation::create([
+                       'amount'=> $amount ,
+                       "start"=>$start ,
+                       "end"=>$end ,
+                       "period"=> $periode ,
+                       "hours"=>round($hour) ,
+                       "customer_id" => $customer_id?$customer_id:null ,
+                       "booking_status" => "Pending" ,
+                       "booking_title" => $booking_title,
+                       "days" => $days] ) ;
+
+
         $opv = reservation_vehicules::create(['reservation_id'=>$op->id , "vehicule_id"=>$request->vehicule]) ;
         $vehicule->update([  "nb_reservation" => $veh]) ;
         return response()->json("Done" , 200 );

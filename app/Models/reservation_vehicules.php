@@ -19,4 +19,16 @@ class reservation_vehicules extends Pivot
     public $incrementing = true;
 
 protected $table = 'reservations_vehicules';
+
+
+public function vehicules()
+    {
+        return $this->belongsToMany(Vehicule::class);
+    }
+
+
+    public function reservations()
+    {
+        return $this->belongsToMany(reservation::class ,  'reservations_vehicules', 'vehicule_id', 'reservation_id');
+    }
 }

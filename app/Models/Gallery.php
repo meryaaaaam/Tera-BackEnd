@@ -16,7 +16,7 @@ class Gallery extends Model
         'vehicule_id',
 
     ];
- //   protected $table = 'galleries';
+  protected $table = 'galleries';
 
 
     public function vehicule()

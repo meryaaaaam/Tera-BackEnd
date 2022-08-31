@@ -18,16 +18,13 @@ return new class extends Migration
             $table->float('amount');
             $table->datetime('start');
             $table->datetime('end');
-
-         /*   $table->string('startday');
-            $table->string('starthour');
-            $table->string('endday');
-            $table->string('endday');*/
-
-
             $table->string('period')->nullable();
             $table->integer('days')->nullable();
             $table->integer('hours')->nullable();
+            $table->string('customer_id')->nullable();
+            //$table->foreignId('payment_id')->nullable()->references('id')->on('payments');
+            $table->string('booking_title')->nullable();
+            $table->enum('booking_status',['Pending','Approved','Declined'])->nullable();
             $table->timestamps();
         });
     }
