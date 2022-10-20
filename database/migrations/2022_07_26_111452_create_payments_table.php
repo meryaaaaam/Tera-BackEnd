@@ -25,11 +25,12 @@ return new class extends Migration
             $table->date('created')->nullable();
             $table->string('payment_method')->nullable();
             $table->boolean('is_security_deposit')->nullable();
-            $table->boolean('is_cash_out')->nullable();
+
             $table->decimal('security_deposit_amount')->nullable();
             $table->decimal('client_fee')->nullable();
-            $table->enum('cashout_status',['Pending','Validated'])->nullable();
-            $table->foreignId('user_id')->references('id')->on('users');
+
+            $table->foreignId('reservation_id')->nullable()->references('id')->on('reservations') ;
+
             $table->timestamps();
         });
     }

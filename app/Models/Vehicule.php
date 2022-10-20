@@ -30,7 +30,9 @@ class Vehicule extends Model
         'nb_reservation',
         'balance' ,
         'bail',
-        'available'
+        'available',
+        'nb_review',
+        'rate'
 
 
     ];
@@ -62,5 +64,10 @@ class Vehicule extends Model
     public function reviews()
     {
         return $this->hasMany(reviews::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

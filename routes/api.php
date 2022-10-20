@@ -3,7 +3,10 @@
 use App\Http\Controllers\VehiculeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\CashController;
 use App\Http\Controllers\DisputesController;
+use App\Http\Controllers\FeeController;
+use App\Http\Controllers\GallerieController;
 use App\Http\Controllers\MakeController;
 use App\Http\Controllers\ModelController;
 use App\Http\Controllers\OptionsController;
@@ -57,6 +60,8 @@ Route::apiResource("users", UserController::class);
 Route::apiResource("change_password", PasswordController::class);
 Route::apiResource("cards", CardController::class);
 Route::apiResource("reviews", ReviewsController::class);
+Route::apiResource("gallerie", GallerieController::class);
+Route::post("updatephoto/{id}", [VehiculeController::class, 'updatedPrincipalPhoto']);
 Route::get('/host/reviews/{id}', [ReviewsController::class, 'Fetch_Reviews_For_User']);
 
 //Route::put('/update/{id}', [UserController::class, 'update']);
@@ -71,7 +76,7 @@ Route::get('/vehiculeByuser/{id}', [VehiculeController::class, 'CarByUser']);
 
 Route::get('/totalprice', [ReservationController::class, 'totalprice']);
 Route::post('/uploadImage', [VehiculeController::class, 'uploadGallery']);
-Route::post('/gallerie', [VehiculeController::class, 'gallerieTest']);
+Route::post('update/galleries/{id}', [GallerieController::class, 'storeImages']);
 
 
 Route::post('/create/makes' , [MakeController::class , 'storeMany']) ;
@@ -86,12 +91,16 @@ Route::post('storeImages' , [VehiculeController::class , 'storeImages']) ;
 Route::apiResource("options", OptionsController::class);
 Route::apiResource("reservations", ReservationController::class);
 
+Route::apiResource("fee", FeeController::class);
+
 
 
 //payments
 Route::post('submit_security_deposit' , [PaymentController::class , 'submitSecurityDeposit']);
 Route::post('booking_payemnt' , [PaymentController::class , 'bookPayment']);
 Route::post('validate_payment' , [PaymentController::class , 'validatePayment']);
+Route::post('make_pre_authorize' , [PaymentController::class , 'makePreAuthorizePA1']);
+Route::post('make_pre_authorize2' , [PaymentController::class , 'makePreAuthorizePA2']);
 
 //disputes
 Route::post('open_dispute' , [DisputesController::class , 'openDispute']);
@@ -101,17 +110,22 @@ Route::get('get_all_disputes' , [DisputesController::class , 'index']);
 Route::get('get_all_bookings' , [BookingController::class, 'index']);
 Route::get('get_bookings/{id}' , [BookingController::class, 'getBookingsByUser']);
 Route::get('get_bookings_requests/{id}' , [BookingController::class, 'getBookingsRequest']);
+Route::get('get_approved_bookings' , [BookingController::class, 'getApprovedBookings']);
+Route::get('get_host_approved_bookings/{id}' , [BookingController::class, 'getHostApprovedBookings']);
 
 //checkout page
 Route::post('display_balance' , [UserController::class, 'displayBalance']);
 
 //cashout
-Route::post('cashout' , [UserController::class, 'cashout']);
-Route::post('list_cashout' , [UserController::class, 'listCashout']);
-Route::post('validate_cashout' , [UserController::class, 'validateCashout']);
+Route::post('cashout' , [CashController::class, 'AskForCashout']);
+Route::get('list_cashout' , [CashController::class, 'listCashoutDemands']);
+Route::post('validate_cashout' , [CashController::class, 'validateCashout']);
+Route::get('cashout_history' , [CashController::class, 'listcashout']);
 
 //admin_dashboad
-Route::post('give_back_deposit' , [PaymentController::class , 'giveBackDeposit']);
+//Route::post('give_back_deposit' , [PaymentController::class , 'giveBackDeposit']);
+Route::post('releast_security_deposit' , [PaymentController::class , 'ReleastSecurityDeposit']);
+
 Route::post('collect_deposit' , [PaymentController::class , 'collectDeposit']);
 
 //booking status
@@ -121,3 +135,6 @@ Route::post('change_booking_status' , [BookingController::class , 'changeBooking
 Route::post('security_deposit_and_client_fee' , [BookingController::class , 'SecurityDepositClientFee']);
 Route::put('Change_user_status' , [UserController::class , 'Change_user_status']);
 
+
+//transaction
+Route::get('get_list_transactions'  , [PaymentController::class , 'List_transaction']);

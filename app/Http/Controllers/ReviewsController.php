@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Make;
+use App\Models\Model;
 use App\Models\reservation;
 use App\Models\reservation_vehicules;
 use App\Models\reviews;
@@ -65,7 +67,7 @@ class ReviewsController extends Controller
                           ->where(function ($q) use($request) {
                                 $q->Where('reservations.customer_id',$request->customer_id);} )
                     ->first() ;
-           // return $reservation ;
+             //dd ($reservation) ;
 
            if($reservation)
            {
@@ -74,9 +76,25 @@ class ReviewsController extends Controller
             $data['title'] = $reservation->booking_title;
             $data['customer_name'] = $user->firstname.' '.$user->lastname;
             $data['customer_photo'] = "https://7rentals.com/backend/public/storage/image/".$user->photo;
-            $reviews =  reviews::create($data);
+             $reviews =  reviews::create($data);
+             $i = 0 ;
+             $single_rate = 0 ;
+             $vehicule = Vehicule::find($request->vehicule_id);
+             $Old_Reviews = Vehicule::with('reviews')->find($request->vehicule_id)->reviews;
+           //  $nb = $vehicule->nb_review+1 ;
+             $nb = $vehicule->nb_review+1 ;
+             foreach($Old_Reviews as $r)
+             {
 
-                return response()->json(['message'=> 'review has been created','Result'=>$reviews] , 200 );
+                $single_rate = $single_rate+$r->rate ;
+                $i = $i+1 ;
+             }
+             $moy_review = $single_rate / $i ;
+            // $rate = ($vehicule->rate+$request->rate)/2 ;
+
+             $vehicule->update(['rate' => $moy_review ,  'nb_review' => $nb]);
+
+                return response()->json(['message'=> 'review has been created','Result'=>$reviews ] , 200 );
                  }
             else
             {
@@ -142,10 +160,50 @@ class ReviewsController extends Controller
     public function Fetch_Reviews_For_User($id)
     {
         $vehicules = User::with(['vehicules'])->find($id) ;
+
         foreach($vehicules->vehicules as $v )
         {
-            $vehiculewithreviews[] = vehicule::with(['reviews'])->find($v->id) ;
+            $model = Model::find( $v->model_id) ;
+            $make = Make::find($model->make_id) ;
+            $vehiculewithreviews = vehicule::with(['reviews','Gallery'])->find($v->id) ;
+
+
+                //$user = User::find($vgr->customer_id);
+                $gallery[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$vehiculewithreviews->photo ;
+                $gallery[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$vehiculewithreviews->Gallery[0]->name ;
+                $gallery[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$vehiculewithreviews->Gallery[1]->name ;
+
+
+
+
+            foreach ($vehiculewithreviews->reviews as $vgr)
+            {
+
+                $vehicule[] = [ "id" =>  $vehiculewithreviews->id ,
+                                "photo" => "https://7rentals.com/backend/public/storage/image/vehicule".$vehiculewithreviews->photo ,
+                                "model" =>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
+                                "gallery" => $gallery ,
+                                "reviews_id" => $vgr->id,
+                                "reviews_date" => $vgr->date,
+                                "reviews_comment" =>$vgr->comment,
+                                "customer_id" => $vgr->customer_id,
+                                "review_title" => $vgr->title,
+                                "customer_photo" => $vgr->customer_photo,
+                                "customer_name" => $vgr->customer_name,
+                                "rate" => $vgr->rate,
+
+
+             ] ;
+
+            }
+
+
+
+
         }
-        return $vehiculewithreviews ;
+
+
+
+        return response()->json($vehicule , 200 );
     }
 }

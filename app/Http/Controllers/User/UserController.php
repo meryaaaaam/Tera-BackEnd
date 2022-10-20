@@ -229,7 +229,7 @@ class UserController extends Controller
 
             $data = $request->all();
             //get the total balance data and the list of all the transactions
-            $user = User::where('id', $data['user_id'])->with('transactions')->first();
+            $user = User::where('id', $data['user_id'])->first();
             return response()->json(['client_data'=> $user]);
 
         } catch (Exception $e) {

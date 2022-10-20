@@ -32,7 +32,8 @@ class ReservationController extends Controller
         $start = date('Y-m-d H:i:s',$start) ;
         $end =  strtotime($end) ;
         $end = date('Y-m-d H:i:s',$end) ;
-        $vehicule = Vehicule::All();
+        $vehicule = Vehicule::orderBy('created_at','desc')->get();
+
         $reservations = array();
 
                       foreach ($vehicule as $v )
@@ -55,6 +56,7 @@ class ReservationController extends Controller
 
                                        } )
 
+                                       ->orderBy('vehicules.created_at','desc')
                                        ->get('vehicule_id')->toArray();
 
                         }
@@ -73,7 +75,8 @@ class ReservationController extends Controller
                 $reservations = array_unique($reservations) ;
               //  dd($reservations);
                 $i = 0 ;
-                $vehicules = Vehicule::All('id')->toArray();
+                //$vehicules = Vehicule::All('id')->toArray();
+                $vehicules = Vehicule::orderBy('vehicules.created_at','desc')->get('id')->toArray();
                //  dd($vehicules);
                 foreach($vehicules as $v)
                 {  // dd($v['vehicule_id']);
@@ -81,7 +84,7 @@ class ReservationController extends Controller
                      //   dump('-----------',$r , $v['id'], '--------------');
                          if ($v['id'] == $r) { unset($vehicules[$i]); }
                         } $i++;}
- //$reservation = array() ;
+         //$reservation = array() ;
             foreach ($vehicules as $v )
             {
 
@@ -105,7 +108,6 @@ class ReservationController extends Controller
                     "matricule" =>  $v->matricule ,
                     "Price_D" =>  $v->Price_D ,
                     "Price_H" =>  $v->Price_H ,
-
                     'location'=>  $v->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
                     'user'=>  $user->firstname." ".$user->lastname ,
@@ -113,6 +115,8 @@ class ReservationController extends Controller
                     //'authorImg'=> "http://localhost:8000/storage/image/". $user->photo,
                     'image' => "https://7rentals.com/backend/public/storage/image/vehicule/".$v->photo,
                     //'image' => "http://localhost:8000/storage/image/vehicule/".$v->photo,
+                    "rate" =>  $v->rate ,
+                    "review" =>  $v->nb_review ,
                     "nb" =>  $v->nb_reservation ,
                     "images" =>  $images ,
 
@@ -144,7 +148,6 @@ class ReservationController extends Controller
     {
             $vehicule  = Vehicule::find($request->vehicule) ;
             $customer_id = $request->customer_id ;
-            $booking_title = $request->booking_title ;
             $start     = $request->start ;
             $start     = str_replace('/', '-', $start);
             $end       = $request->end ;
@@ -155,6 +158,9 @@ class ReservationController extends Controller
             $end       = date('Y-m-d H:i:s',$end) ;
             $available = true ;
             $reservation = reservation_vehicules::where('vehicule_id' ,$vehicule->id)->first();
+            $model = Model::find( $vehicule->model_id) ;
+            $make  = Make::find($model->make_id) ;
+            $booking_title = $make->name." ".$model->name ." ".$model->type." ".$model->year ;
 
             if($reservation)
             {
@@ -247,7 +253,7 @@ class ReservationController extends Controller
 
         $opv = reservation_vehicules::create(['reservation_id'=>$op->id , "vehicule_id"=>$request->vehicule]) ;
         $vehicule->update([  "nb_reservation" => $veh]) ;
-        return response()->json("Done" , 200 );
+        return response()->json(['id'=>$op->id] , 200 );
     }
     else
     {  return response()->json("This car not available for now" , 200 );

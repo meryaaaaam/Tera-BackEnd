@@ -30,4 +30,9 @@ class reservation extends Model
     }
 
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class  );
+    }
+
 }

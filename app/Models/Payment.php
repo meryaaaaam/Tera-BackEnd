@@ -25,6 +25,10 @@ class Payment extends Model
         'is_cash_out',
         'cashout_status',
         'security_deposit_amount',
+        'reservation_id',
+        'is_approved',
+
+
     ];
 
     protected $table = 'payments';
@@ -32,6 +36,12 @@ class Payment extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'user_id');
+    }
+
+
+    public function reservation()
+    {
+        return $this->belongsTo(reservation::class);
     }
 
 }

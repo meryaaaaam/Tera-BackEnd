@@ -36,7 +36,7 @@ class AuthController extends Controller
         ]);
         if ($validator->fails()) {
            // $messages = $validator->messages();
-            return response()->json($validator->errors(), 422);
+            return response()->json($validator->errors()->getMessages(), 422);
         }
         if (! $token = auth()->attempt($validator->validated())) {
             $email = User::Where('email', $request->email )->first() ;

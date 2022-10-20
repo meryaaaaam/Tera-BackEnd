@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Vehicule;
 use App\Models\vehicule_Options;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class VehiculeController extends Controller
 {
@@ -22,14 +23,15 @@ class VehiculeController extends Controller
     public function index()
     {
 
-       $vehicules = Vehicule::All() ;
+       $vehicules = Vehicule::orderBy('created_at','desc')->get();
 
        foreach ($vehicules as $v)
        {
         $gallerie = Gallery::where('vehicule_id' , $v->id)->get() ;
         foreach ($gallerie as $g )
         {
-            $images[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$g->name ;
+          //  $images[] = "https://7rentals.com/backend/public/storage/image/vehicule/".$g->name ;
+            $images[] = "http://127.0.0.1:8000/storage/image/vehicule/".$g->name ;
         }
         $model = Model::find( $v->model_id) ;
         $make = Make::find($model->make_id) ;
@@ -49,7 +51,7 @@ class VehiculeController extends Controller
         "nb" =>  $v->nb_reservation ,
         "images" =>  $images ,
 
-    ];}
+        ];}
         else
         {$res[] = ["id" =>  $v->id ,
             "km" =>  $v->km ,
@@ -199,7 +201,8 @@ class VehiculeController extends Controller
             $galleries = Gallery::where('vehicule_id' , $vehicule->id)->get() ;
             foreach($galleries as $gal)
             {
-                $images[] = ["path" => "https://7rentals.com/backend/public/storage/image/vehicule/".$gal["path"]] ;
+                //$images[] = ["path" => "https://7rentals.com/backend/public/storage/image/vehicule/".$gal["path"]] ;
+                $images[] = ["path" => "http://127.0.0.1:8000/storage/image/vehicule/".$gal["path"]] ;
             }
             $user = User::find( $vehicule->user_id ) ;
 
@@ -232,6 +235,10 @@ class VehiculeController extends Controller
 
                     'location'=>  $vehicule->location ,
                     'model'=>  $make->name." ".$model->name ." ".$model->type." ".$model->year ,
+                    'modelname'=> $model->name  ,
+                    'make'=>  ["id"=>$make->id , "model"=>$model->id ,"type"=>$model->type , "year"=>$model->year] ,
+                    'type'=>  $model->type,
+                    'year'=>  $model->year ,
                     'user'=> $user->firstname." ".$user->lastname,
                     'user_id'=> $user->id,
                      'user_photo' => "https://7rentals.com/backend/public/storage/image/".$user->photo,
@@ -240,10 +247,13 @@ class VehiculeController extends Controller
                     'telephone'=> $user->phone,
                     'nb'=> $vehicule->nb_reservation,
                     'description'=> $vehicule->description,
-                    // 'photo'=> "http://localhost:8000/storage/image/vehicule/".$vehicule->photo,
-                     'photo'=> "https://7rentals.com/backend/public/storage/image/vehicule/".$vehicule->photo,
+                     'photo'=> "http://localhost:8000/storage/image/vehicule/".$vehicule->photo,
+                     //'photo'=> "https://7rentals.com/backend/public/storage/image/vehicule/".$vehicule->photo,
 
-
+                     'nb_reservation' => $vehicule->nb_reservation,
+                     'nb_review' => $vehicule->nb_review,
+                     'rate' => $vehicule->rate,
+                     'available'=> $vehicule->available,
                     "gallerie" =>  $gallerie["path"] ,
                     "galleries" =>  $images ,
                     "options" => $options ,
@@ -271,24 +281,7 @@ class VehiculeController extends Controller
     {
         $response = Vehicule::find($id) ;
         $model = Model::find($response->model_id) ;
-        $response->update( [
-            'km' => $request->km,
-            'matricule' => $request->matricule,
-            'portes' => $request->portes,
-            'carburant' => $request->carburant,
-            'transmission' => $request->transmission,
-            'siege' => $request->siege,
-            'Price_H' => $request->Price_H,
-            'Price_D' => $request->Price_D,
-            'location' => $request->location,
-            'model_id' => $request->model_id,
-            'user_id' => $request->user_id,
-            'description' => $request->description,
-            'photo' => $request->photo,
-            'options' => $request->options,
-            'bail' => $request->bail,
-
-        ]) ;
+        $response->update( $request->all() ) ;
         if($request->options)
         {$response->options()->detach();
             foreach($request->options as $op)
@@ -343,7 +336,7 @@ class VehiculeController extends Controller
     public function CarByUser($id)
     {
       $res =array();
-      $vehicule = Vehicule::where('user_id',$id)->get() ;
+      $vehicule = Vehicule::where('user_id',$id)->orderBy('created_at','desc')->get() ;
 
       if($vehicule->toArray())
        {
@@ -366,6 +359,10 @@ class VehiculeController extends Controller
                         'Price_H' => $v->Price_H,
                         'Price_D' => $v->Price_D,
                         'location' => $v->location,
+                        'rate' => $v->rate,
+                        'nb_reservation' => $v->nb_reservation,
+                        'nb_review' => $v->nb_review,
+                        'available'=> $v->available,
                         'model' => $model->name,
                         'type' => $model->type,
                         'year' => $model->year,
@@ -391,7 +388,10 @@ class VehiculeController extends Controller
                         'type' => $model->type,
                         'year' => $model->year,
                         'user' =>$user->firstname.' '.$user->latsname ,
-
+                        'rate' => $v->rate,
+                        'nb_reservation' => $v->nb_reservation,
+                        'nb_review' => $v->nb_review,
+                        'available'=> $v->available,
                         'make' => $make->name ,
 
 
@@ -521,26 +521,7 @@ class VehiculeController extends Controller
     return response()->json($response , 200 );
 }
 
-public function gallerieTest(Request $request)
-{
 
-   /* foreach($request->name as $gal)
-    {
-        $g = Gallery::create(["path"=>$gal   ]) ;
-    }
-
-    if ($g)
-    {
-        return response()->json("Done");
-    }
-    else
-    {
-        return response()->json("Nope");
-
-    }*/
-    return response()->json(["req"=>$request]);
-
-}
 
 
 
@@ -628,5 +609,33 @@ public function storeImage(Request $request)
 
 
     }
+
+    public function updatedPrincipalPhoto(Request $request , $id)
+{
+    $filenameWithExt = $request->file('img')->getClientOriginalName();
+    $Vheicule = Vehicule::findOrFail($id) ;
+    $gallerie =$Vheicule->photo ;
+    Storage::disk('public')->delete('image/vehicule/'.$gallerie);
+    $exist = Storage::exists("public/image/vehicule/".$gallerie);
+
+
+     if ($request->hasFile('img'))
+      {
+
+        $filenameWithExt = $request->file('img')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            $request->file('img')->storeAs('public/image/vehicule', $fileNameToStore);
+            $Vheicule->photo= $fileNameToStore;
+
+     if($Vheicule->save() && $Vheicule->refresh()){
+        return response()->json(["message" => "image added successfully."]);
+     } else{
+        return response()->json(["message" => "something went wrong"]);
+     }
+}
+}
 
 }

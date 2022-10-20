@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date')->nullable();
             $table->string('description')->nullable();
+            $table->string('host_id')->nullable();
             $table->string('host_name')->nullable();
+            $table->string('client_id')->nullable();
             $table->string('client_name')->nullable();
-            $table->foreignId('user_id')->nullable()->references('id')->on('users');
+            $table->foreignId('reservation_id')->nullable()->references('id')->on('reservations');
             $table->timestamps();
         });
     }

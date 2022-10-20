@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('customer_id')->nullable();
             //$table->foreignId('payment_id')->nullable()->references('id')->on('payments');
             $table->string('booking_title')->nullable();
-            $table->enum('booking_status',['Pending','Approved','Declined'])->nullable();
+            $table->enum('booking_status',['Pending','Approved','Declined','Done','Demande Dispute','Deposit Collected','Deposit Returned Back'])->nullable();
             $table->timestamps();
         });
     }

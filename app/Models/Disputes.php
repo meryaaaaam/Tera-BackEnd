@@ -13,7 +13,14 @@ class Disputes extends Model
         'date',
         'description',
         'host_name',
+        'host_id',
         'client_name',
-        'user_id'
+        'client_id',
+        'reservation_id'
     ];
+
+    public function Reservation()
+    {
+        return $this->belongsTo(reservation::class);
+    }
 }

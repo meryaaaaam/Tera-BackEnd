@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('rate');
             $table->dateTime('date');
-            $table->string('comment');
+            $table->text('comment');
             $table->string('customer_id')->nullable();
             $table->string('title')->nullable();
             $table->foreignId('vehicule_id')->nullable()->references('id')->on('vehicules')->onDelete('cascade');
